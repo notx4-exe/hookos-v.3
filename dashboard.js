@@ -86,15 +86,17 @@
     const button = event.target.closest('[data-delete-history]');
     if (!button) return;
     const id = button.dataset.deleteHistory;
-    if (!window.confirm('Delete this saved blueprint?')) return;
-    button.disabled = true;
-    try {
-      await HookosAPI.deleteHistoryItem(id);
-      await loadHistory();
-    } catch (err) {
-      button.disabled = false;
-      window.alert(err.message || 'Could not delete this blueprint.');
-    }
+    if (!window.hookosOpenDeleteModal) return;
+    window.hookosOpenDeleteModal(button, async () => {
+      button.disabled = true;
+      try {
+        await HookosAPI.deleteHistoryItem(id);
+        await loadHistory();
+      } catch (err) {
+        button.disabled = false;
+        window.alert(err.message || 'Could not delete this blueprint.');
+      }
+    });
   });
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadDashboard);
