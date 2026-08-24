@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="fixes.css">
+<link rel="stylesheet" href="redesign.css">
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -22,24 +23,13 @@
         <div class="eyebrow hero-eyebrow"><span class="eyebrow-dot"></span> IDEA → HOOK → REEL</div>
         <h1>Turn one idea into a <span class="text-accent">reel blueprint.</span></h1>
         <p>HookOS transforms your idea into the hook, script, scenes and CTA your reel needs.</p>
-        <div class="hero-actions">
-          <a href="#generator" class="btn btn-primary btn-lg">Generate My Reel</a>
-          <a href="#example" class="btn btn-secondary btn-lg">See How It Works</a>
-        </div>
+        <div class="hero-actions"><a href="#generator" class="btn btn-primary btn-lg">Generate My Reel</a><a href="#example" class="btn btn-secondary btn-lg">See How It Works</a></div>
         <div class="hero-proof"><span>✦</span><span>No complex prompting.</span><span>One idea in. One blueprint out.</span></div>
       </div>
-      <div class="hero-product-card" aria-label="HookOS product preview showing an idea becoming a reel blueprint">
+      <div class="hero-product-card" aria-label="HookOS product preview">
         <div class="product-card-top"><span class="product-card-label">HOOKOS GENERATOR</span><span class="status-pill"><span></span> READY</span></div>
         <div class="product-idea-box"><span>YOUR IDEA</span><strong>Why students can't focus</strong></div>
-        <div class="product-flow">
-          <div class="flow-step is-done"><span class="flow-icon">✓</span><div><small>01</small><strong>Hook</strong></div></div>
-          <div class="flow-line"></div>
-          <div class="flow-step is-done"><span class="flow-icon">✓</span><div><small>02</small><strong>Script</strong></div></div>
-          <div class="flow-line"></div>
-          <div class="flow-step is-done"><span class="flow-icon">✓</span><div><small>03</small><strong>Scenes</strong></div></div>
-          <div class="flow-line"></div>
-          <div class="flow-step is-current"><span class="flow-icon">→</span><div><small>04</small><strong>CTA</strong></div></div>
-        </div>
+        <div class="product-flow"><div class="flow-step is-done"><span class="flow-icon">✓</span><div><small>01</small><strong>Hook</strong></div></div><div class="flow-line"></div><div class="flow-step is-done"><span class="flow-icon">✓</span><div><small>02</small><strong>Script</strong></div></div><div class="flow-line"></div><div class="flow-step is-done"><span class="flow-icon">✓</span><div><small>03</small><strong>Scenes</strong></div></div><div class="flow-line"></div><div class="flow-step is-current"><span class="flow-icon">→</span><div><small>04</small><strong>CTA</strong></div></div></div>
         <div class="product-preview-footer"><span>Framework</span><strong>Curiosity Gap</strong><span class="mini-arrow">↗</span></div>
       </div>
     </div>
@@ -49,27 +39,16 @@
     <div class="container generator-shell">
       <div class="section-title reveal"><div class="eyebrow">THE GENERATOR</div><h2>Create your reel blueprint.</h2><p>Give HookOS one idea. Choose the angle. Get the blueprint.</p></div>
       <form id="blueprint-form" novalidate>
-        <div class="field-label" id="idea-label">Your idea</div>
-        <div class="hookos-idea-wrap"><textarea id="idea-input" placeholder="Describe your reel idea..." aria-labelledby="idea-label" aria-describedby="generation-quota char-count" required></textarea></div>
+        <div class="field-label" id="idea-label">Your idea</div><div class="hookos-idea-wrap"><textarea id="idea-input" placeholder="Describe your reel idea..." aria-labelledby="idea-label" aria-describedby="generation-quota char-count" required></textarea></div>
         <div class="input-guidance"><span class="input-guidance-main">Try: “3 mistakes first-time apartment buyers make”</span><span id="char-count">0/500</span></div>
         <div id="hookos-inline-auth" class="hookos-inline-auth" hidden aria-live="polite"><div class="hookos-inline-auth-copy"><div class="hookos-inline-auth-title">One small step — sign in first.</div><div class="hookos-inline-auth-text">Your blueprint is saved to your account history.</div></div><button type="button" data-action="google-login">Continue with Google</button></div>
         <div class="framework-heading-row"><div class="field-label" id="framework-label">Choose a framework</div><span class="recommended-note">Recommended for most ideas</span></div>
         <div class="framework-grid" role="radiogroup" aria-labelledby="framework-label" id="framework-grid"></div>
         <button type="submit" class="btn btn-primary btn-lg btn-block" id="generate-btn"><span id="generate-btn-text">Generate Blueprint</span><span aria-hidden="true">↗</span></button>
-        <div class="form-hint" id="form-hint">&nbsp;</div>
-        <div class="api-error" id="api-error" role="alert"></div>
+        <div class="form-hint" id="form-hint">&nbsp;</div><div class="api-error" id="api-error" role="alert"></div>
       </form>
       <div class="loading-panel" id="loading-panel" aria-live="polite"><div class="loading-orb" aria-hidden="true"></div><div class="loading-status" id="loading-status">Preparing your blueprint...</div><ul class="loading-steps" id="loading-steps" aria-hidden="true"></ul><div class="loading-track" aria-hidden="true"><div class="loading-bar" id="loading-bar"></div></div></div>
-      <section id="results" hidden aria-live="polite">
-        <div class="results-header"><div><div class="eyebrow">YOUR OUTPUT</div><h2>Your reel blueprint</h2><p>Copy each section straight into your workflow.</p></div><span class="output-status"><span></span> READY</span></div>
-        <div class="metrics-panel"><div class="metrics-heading"><h3>Creative signals</h3><span>AI estimates</span></div><div class="metrics-grid"><div class="metric"><span class="metric-label">Virality Score</span><span class="metric-value" id="metric-virality">—</span><div class="metric-bar"><span id="metric-virality-bar"></span></div></div><div class="metric"><span class="metric-label">Retention Score</span><span class="metric-value" id="metric-retention">—</span><div class="metric-bar"><span id="metric-retention-bar"></span></div></div><div class="metric"><span class="metric-label">Predicted Watch Time</span><span class="metric-value" id="metric-watchtime">—</span><div class="metric-bar"><span id="metric-watchtime-bar"></span></div></div><div class="metric"><span class="metric-label">Emotion Trigger</span><span class="metric-value is-text" id="metric-emotion">—</span></div><div class="metric"><span class="metric-label">Framework Used</span><span class="metric-value is-text" id="metric-framework">—</span></div><div class="metric"><span class="metric-label">Confidence</span><span class="metric-value is-text" id="metric-confidence">—</span></div></div></div>
-        <div class="result-card"><div class="result-card-head"><h3>Title</h3><button class="copy-btn" data-target="result-title" type="button">Copy</button></div><div class="result-body" id="result-title"></div></div>
-        <div class="result-card"><div class="result-card-head"><h3>Topic Refinement</h3><button class="copy-btn" data-target="result-topic" type="button">Copy</button></div><div class="result-body" id="result-topic"></div></div>
-        <div class="result-card result-card-featured"><div class="result-card-head"><h3>Hook</h3><button class="copy-btn" data-target="result-hook" type="button">Copy</button></div><div class="result-body" id="result-hook"></div></div>
-        <div class="result-card"><div class="result-card-head"><h3>Script</h3><button class="copy-btn" data-target="result-script" type="button">Copy</button></div><div class="result-body" id="result-script"></div></div>
-        <div class="result-card"><div class="result-card-head"><h3>Scene Plan</h3><button class="copy-btn" data-target="result-scene" type="button">Copy</button></div><div class="result-body scene-plan" id="result-scene"></div></div>
-        <div class="result-card result-card-cta"><div class="result-card-head"><h3>CTA</h3><button class="copy-btn" data-target="result-cta" type="button">Copy</button></div><div class="result-body" id="result-cta"></div></div>
-      </section>
+      <section id="results" hidden aria-live="polite"><div class="results-header"><div><div class="eyebrow">YOUR OUTPUT</div><h2>Your reel blueprint</h2><p>Copy each section straight into your workflow.</p></div><span class="output-status"><span></span> READY</span></div><div class="metrics-panel"><div class="metrics-heading"><h3>Creative signals</h3><span>AI estimates</span></div><div class="metrics-grid"><div class="metric"><span class="metric-label">Virality Score</span><span class="metric-value" id="metric-virality">—</span><div class="metric-bar"><span id="metric-virality-bar"></span></div></div><div class="metric"><span class="metric-label">Retention Score</span><span class="metric-value" id="metric-retention">—</span><div class="metric-bar"><span id="metric-retention-bar"></span></div></div><div class="metric"><span class="metric-label">Predicted Watch Time</span><span class="metric-value" id="metric-watchtime">—</span><div class="metric-bar"><span id="metric-watchtime-bar"></span></div></div><div class="metric"><span class="metric-label">Emotion Trigger</span><span class="metric-value is-text" id="metric-emotion">—</span></div><div class="metric"><span class="metric-label">Framework Used</span><span class="metric-value is-text" id="metric-framework">—</span></div><div class="metric"><span class="metric-label">Confidence</span><span class="metric-value is-text" id="metric-confidence">—</span></div></div></div><div class="result-card"><div class="result-card-head"><h3>Title</h3><button class="copy-btn" data-target="result-title" type="button">Copy</button></div><div class="result-body" id="result-title"></div></div><div class="result-card"><div class="result-card-head"><h3>Topic Refinement</h3><button class="copy-btn" data-target="result-topic" type="button">Copy</button></div><div class="result-body" id="result-topic"></div></div><div class="result-card result-card-featured"><div class="result-card-head"><h3>Hook</h3><button class="copy-btn" data-target="result-hook" type="button">Copy</button></div><div class="result-body" id="result-hook"></div></div><div class="result-card"><div class="result-card-head"><h3>Script</h3><button class="copy-btn" data-target="result-script" type="button">Copy</button></div><div class="result-body" id="result-script"></div></div><div class="result-card"><div class="result-card-head"><h3>Scene Plan</h3><button class="copy-btn" data-target="result-scene" type="button">Copy</button></div><div class="result-body scene-plan" id="result-scene"></div></div><div class="result-card result-card-cta"><div class="result-card-head"><h3>CTA</h3><button class="copy-btn" data-target="result-cta" type="button">Copy</button></div><div class="result-body" id="result-cta"></div></div></section>
     </div>
   </section>
 
