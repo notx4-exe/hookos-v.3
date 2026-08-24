@@ -1,0 +1,152 @@
+/* HookOS mobile UX polish */
+:root{
+  --hookos-green:#16A34A;
+  --hookos-green-dark:#15803D;
+  --hookos-green-soft:#DCFCE7;
+  --hookos-green-wash:#F0FDF4;
+  --hookos-bg:#FAFAF8;
+  --hookos-surface:#FFFFFF;
+  --hookos-text:#111111;
+  --hookos-muted:#6B7280;
+  --hookos-border:#E5E7EB;
+  --hookos-danger:#DC2626;
+}
+
+body{background:var(--hookos-bg);color:var(--hookos-text)}
+
+.btn-primary{background:var(--hookos-green)!important;color:#fff!important;box-shadow:0 8px 20px rgba(22,163,74,.18)}
+.btn-primary:hover:not(:disabled){background:var(--hookos-green-dark)!important}
+.btn-secondary{border-color:var(--hookos-border)!important;background:#fff!important}
+
+/* Shared visual language */
+.dashboard-card,.early-access-shell,.result-card,.output-card,.card,.example-input,.mockup{border-color:var(--hookos-border)!important}
+
+/* Mobile navigation cleanup */
+@media(max-width:860px){
+  .nav-right .nav-links a.is-active{background:var(--hookos-green-wash)!important;color:var(--hookos-green-dark)!important}
+  .nav-right .nav-links a:focus-visible{outline:3px solid rgba(22,163,74,.22)}
+  .nav-right>.btn-primary{box-shadow:0 10px 24px rgba(22,163,74,.2)}
+}
+
+/* Support + tutorial: product-like documentation instead of article wall */
+.legal-page{padding-block:56px 80px}
+.legal-page .container{max-width:900px}
+.legal-page h1{font-size:clamp(36px,7vw,52px);letter-spacing:-.05em;margin-bottom:12px}
+.legal-page .legal-updated{color:var(--hookos-muted);max-width:700px;margin-bottom:34px;font-size:17px;line-height:1.55}
+.legal-page h2{font-size:clamp(22px,4vw,30px);letter-spacing:-.03em;margin-top:28px;margin-bottom:10px}
+.legal-page p{font-size:16px;line-height:1.65;color:#3F4650;max-width:70ch}
+.legal-page a{color:var(--hookos-green-dark);font-weight:700;text-decoration-color:rgba(22,163,74,.35);text-underline-offset:3px}
+
+@media(min-width:700px){
+  .legal-page h2:not(:first-of-type){margin-top:38px}
+}
+
+/* Tutorial visual steps */
+.tutorial-step{
+  margin:18px 0;
+  padding:20px;
+  border:1px solid var(--hookos-border);
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 8px 26px rgba(17,24,39,.035)
+}
+.tutorial-step .step-number{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:11px;
+  background:var(--hookos-green-wash);
+  border:1px solid #BBF7D0;
+  color:var(--hookos-green-dark);
+  font-size:12px;font-weight:900;letter-spacing:.04em;margin-bottom:14px
+}
+.tutorial-step h2{margin:0 0 8px;font-size:24px}
+.tutorial-step p{margin:0}
+.tutorial-preview{margin-top:16px;padding:14px;border:1px solid var(--hookos-border);border-radius:16px;background:var(--hookos-bg)}
+.tutorial-preview .preview-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:900;color:var(--hookos-muted);margin-bottom:8px}
+.tutorial-preview .preview-field{padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--hookos-border);font-size:14px;font-weight:700}
+.tutorial-preview .preview-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.tutorial-preview .preview-chip{padding:10px;border-radius:11px;background:#fff;border:1px solid var(--hookos-border);font-size:12px;font-weight:700}
+.tutorial-preview .preview-chip.is-selected{background:var(--hookos-green-wash);border-color:#86EFAC;color:var(--hookos-green-dark)}
+.tutorial-preview .preview-list{display:grid;gap:7px}
+.tutorial-preview .preview-list div{padding:9px 10px;border:1px solid var(--hookos-border);border-radius:10px;background:#fff;font-size:12px;font-weight:700}
+
+/* Support cards */
+.support-card{
+  margin:16px 0;padding:20px;
+  border:1px solid var(--hookos-border);
+  border-radius:20px;background:#fff;
+  box-shadow:0 8px 26px rgba(17,24,39,.035)
+}
+.support-card h2{margin:0 0 8px;font-size:22px}
+.support-email{font-size:18px!important;font-weight:800;color:var(--hookos-green-dark)!important}
+.support-card p:last-child{margin-bottom:0}
+
+/* Compact dashboard/account/history */
+.dashboard-shell{background:var(--hookos-bg)!important}
+.dashboard-hero h1{letter-spacing:-.055em}
+.dashboard-create .btn{background:var(--hookos-green)!important}
+.usage-bar span{background:var(--hookos-green)!important}
+.history-item{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.history-item:hover{border-color:#BBF7D0!important;box-shadow:0 10px 24px rgba(22,163,74,.07);transform:translateY(-1px)}
+.mini-btn:hover{border-color:#BBF7D0!important;background:var(--hookos-green-wash)!important}
+
+/* Custom delete modal */
+.hookos-modal-backdrop{
+  position:fixed;inset:0;z-index:1500;
+  background:rgba(17,19,18,.56);
+  backdrop-filter:blur(3px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .2s ease,visibility .2s ease
+}
+.hookos-modal-backdrop.is-open{opacity:1;visibility:visible;pointer-events:auto}
+.hookos-modal{
+  position:fixed;left:50%;top:50%;z-index:1501;
+  width:min(92vw,440px);
+  transform:translate(-50%,-46%);
+  opacity:0;visibility:hidden;pointer-events:none;
+  background:#fff;border:1px solid var(--hookos-border);border-radius:24px;
+  box-shadow:0 28px 80px rgba(0,0,0,.24);
+  padding:24px;
+  transition:opacity .2s ease,transform .22s ease,visibility .2s ease
+}
+.hookos-modal.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,-50%)}
+.hookos-modal h2{font-size:25px;margin:0 0 8px;letter-spacing:-.035em}
+.hookos-modal p{margin:0;color:var(--hookos-muted);font-size:15px;line-height:1.55}
+.hookos-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.hookos-modal-actions button{min-height:46px;border-radius:12px;border:1px solid var(--hookos-border);font-weight:800}
+.hookos-modal-cancel{background:#fff}
+.hookos-modal-delete{background:var(--hookos-danger);color:#fff;border-color:var(--hookos-danger)!important}
+.hookos-modal-delete:hover{background:#B91C1C}
+
+/* Footer contrast */
+footer .social-link{color:#fff!important;border-color:rgba(255,255,255,.24)!important}
+footer .social-link:hover{background:var(--hookos-green)!important;border-color:var(--hookos-green)!important;color:#fff!important}
+footer .footer-legal-links a{color:#E5E7EB!important}
+footer .footer-bottom{color:#9CA3AF!important}
+
+/* Better mobile type and spacing */
+@media(max-width:700px){
+  section{padding-block:48px}
+  .container{padding-inline:18px}
+  .legal-page{padding-block:34px 54px}
+  .legal-page .container{padding-inline:18px}
+  .legal-page h1{font-size:38px}
+  .legal-page .legal-updated{font-size:16px;margin-bottom:26px}
+  .legal-page h2{font-size:24px;line-height:1.14;margin-top:24px}
+  .legal-page p{font-size:16px;line-height:1.6}
+  .tutorial-step,.support-card{padding:18px;border-radius:18px}
+  .tutorial-step h2,.support-card h2{font-size:21px}
+  .dashboard-shell{padding-top:26px!important}
+  .dashboard-hero h1{font-size:44px!important}
+  .dashboard-card{padding:20px!important;border-radius:20px!important}
+  .usage-number{font-size:58px!important}
+  .history-card{padding:20px!important}
+  .history-head h2{font-size:26px!important}
+  .history-item{padding:15px!important}
+  .dashboard-actions{gap:8px}
+  .dashboard-actions .btn,.dashboard-actions .danger-button{min-height:46px}
+}
+
+/* Respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .hookos-modal,.hookos-modal-backdrop,.history-item{transition:none!important}
+}
