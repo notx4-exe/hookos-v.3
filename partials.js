@@ -4,11 +4,10 @@
 
 function hookosCurrentPageKey() {
   const file = window.location.pathname.split('/').pop() || 'index.html';
-  if (file === '' || file === 'index.html') {
-    return window.location.hash === '#generator' ? 'generator' : 'home';
-  }
+  if (file === '' || file === 'index.html') return window.location.hash === '#generator' ? 'generator' : 'home';
   if (file === 'tutorial.html') return 'tutorial';
   if (file === 'support.html') return 'support';
+  if (file === 'dashboard.html') return 'dashboard';
   return null;
 }
 
@@ -17,17 +16,14 @@ function renderNavbar() {
   if (!root) return;
 
   const active = hookosCurrentPageKey();
-  const navItem = (key, href, label) =>
-    `<li><a href="${href}" data-nav="${key}"${active === key ? ' aria-current="page" class="is-active"' : ''}>${label}</a></li>`;
+  const navItem = (key, href, label) => `<li><a href="${href}" data-nav="${key}"${active === key ? ' aria-current="page" class="is-active"' : ''}>${label}</a></li>`;
 
   root.innerHTML = `
     <header class="navbar">
       <div class="container">
-        <a href="index.html" class="logo-link" aria-label="HOOKOS home">
-          <span class="logo-wordmark">HOOKOS</span>
-        </a>
+        <a href="index.html" class="logo-link" aria-label="HOOKOS home"><span class="logo-wordmark">HOOKOS</span></a>
 
-        <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-right" aria-label="Toggle menu">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-right" aria-label="Open menu">
           <span class="nav-toggle-bars"><span></span><span></span><span></span></span>
         </button>
 
@@ -40,10 +36,10 @@ function renderNavbar() {
           </div>
 
           <ul class="nav-links">
-            ${navItem('home', 'index.html', 'Home')}
+            ${navItem('home', 'index.html', 'Product')}
             ${navItem('generator', 'index.html#generator', 'Generator')}
-            ${navItem('tutorial', 'tutorial.html', 'Tutorial')}
-            ${navItem('support', 'support.html', 'Support')}
+            ${navItem('how-it-works', 'index.html#how-it-works', 'How It Works')}
+            ${navItem('pricing', 'pricing.html', 'Pricing')}
           </ul>
 
           <div class="auth-area">
@@ -55,7 +51,7 @@ function renderNavbar() {
                   <path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.16.28-1.7V4.97H.95A9 9 0 0 0 0 9c0 1.45.35 2.83.95 4.03l3-2.33Z"/>
                   <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 .95 4.97l3 2.33C4.66 5.17 6.65 3.58 9 3.58Z"/>
                 </svg>
-                <span>Log In</span>
+                <span>Sign In</span>
               </button>
             </div>
 
@@ -65,13 +61,11 @@ function renderNavbar() {
                 <img class="avatar avatar-img" data-user-avatar alt="" hidden>
                 <span data-user-name>Account</span>
               </button>
-              <div class="profile-dropdown" role="menu">
-                <button type="button" role="menuitem" data-action="logout">Log Out</button>
-              </div>
+              <div class="profile-dropdown" role="menu"><button type="button" role="menuitem" data-action="logout">Log Out</button></div>
             </div>
           </div>
 
-          <a href="index.html#generator" class="btn btn-primary">Get Started</a>
+          <a href="index.html#generator" class="btn btn-primary">Generate My Reel →</a>
         </nav>
       </div>
     </header>`;
@@ -82,176 +76,31 @@ function renderNavbar() {
 
 function installMobileNavStyles() {
   if (document.getElementById('hookos-mobile-nav-styles')) return;
-
   const style = document.createElement('style');
   style.id = 'hookos-mobile-nav-styles';
   style.textContent = `
     @media (max-width: 860px) {
       body.nav-open { overflow: hidden; }
-
-      .nav-backdrop {
-        position: fixed;
-        inset: 0;
-        z-index: 109;
-        background: rgba(0,0,0,.28);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity .24s var(--ease), visibility .24s;
-      }
-
-      .nav-open .nav-backdrop {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-      }
-
-      .nav-right {
-        z-index: 110;
-        position: fixed;
-        inset: 0 auto 0 0;
-        width: min(360px, 88vw);
-        height: 100dvh;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 0;
-        background: var(--bg);
-        border-right: 1px solid var(--border);
-        border-radius: 0 22px 22px 0;
-        box-shadow: 18px 0 50px rgba(0,0,0,.10);
-        transform: translateX(-104%);
-        opacity: 1;
-        visibility: hidden;
-        pointer-events: none;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-        transition: transform .28s var(--ease), visibility .28s;
-      }
-
-      .nav-open .nav-right {
-        transform: translateX(0);
-        visibility: visible;
-        pointer-events: auto;
-      }
-
-      .mobile-nav-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 72px;
-        padding: 0 18px 0 22px;
-        border-bottom: 1px solid var(--border);
-        flex-shrink: 0;
-      }
-
-      .mobile-nav-title {
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: -.04em;
-      }
-
-      .mobile-nav-close {
-        width: 42px;
-        height: 42px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--border);
-        border-radius: 50%;
-        font-size: 28px;
-        font-weight: 300;
-        line-height: 1;
-        color: var(--text-primary);
-      }
-
-      .nav-right .nav-links {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        padding: 18px 12px 8px;
-      }
-
-      .nav-right .nav-links li { width: 100%; }
-
-      .nav-right .nav-links a {
-        display: flex;
-        align-items: center;
-        min-height: 52px;
-        padding: 0 14px;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-primary);
-        transition: background-color .18s var(--ease), transform .18s var(--ease);
-      }
-
-      .nav-right .nav-links a:hover,
-      .nav-right .nav-links a:focus-visible {
-        background: var(--surface);
-        transform: none;
-      }
-
-      .nav-right .nav-links a.is-active {
-        background: var(--surface);
-      }
-
-      .nav-right .auth-area {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding: 8px 12px 0;
-      }
-
-      .nav-right .auth-area > div,
-      .nav-right .auth-area .btn {
-        width: 100%;
-      }
-
-      .nav-right .profile-trigger {
-        width: 100%;
-        justify-content: flex-start;
-        min-height: 52px;
-      }
-
-      .nav-right > .btn-primary {
-        width: calc(100% - 24px);
-        margin: 12px;
-      }
-
-      .nav-right .profile-dropdown {
-        position: static;
-        box-shadow: none;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        display: none;
-        margin-top: 4px;
-      }
-
-      .nav-right .profile-menu.is-open .profile-dropdown {
-        display: block;
-      }
-
-      .nav-toggle {
-        position: relative;
-        z-index: 111;
-      }
-
-      .nav-open .nav-toggle {
-        opacity: 0;
-        pointer-events: none;
-      }
+      .nav-backdrop{position:fixed;inset:0;z-index:109;background:rgba(17,19,18,.34);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+      .nav-open .nav-backdrop{opacity:1;visibility:visible;pointer-events:auto}
+      .nav-right{z-index:110;position:fixed;inset:0 auto 0 0;width:min(360px,88vw);height:100dvh;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;background:#fff;border-right:1px solid #E5E7EB;border-radius:0 24px 24px 0;box-shadow:18px 0 56px rgba(0,0,0,.14);transform:translateX(-104%);visibility:hidden;pointer-events:none;overflow-y:auto;overscroll-behavior:contain;transition:transform .28s cubic-bezier(.16,1,.3,1),visibility .28s ease}
+      .nav-open .nav-right{transform:translateX(0);visibility:visible;pointer-events:auto}
+      .mobile-nav-header{display:flex;align-items:center;justify-content:space-between;min-height:72px;padding:0 18px 0 22px;border-bottom:1px solid #E5E7EB;flex-shrink:0}
+      .mobile-nav-title{font-size:20px;font-weight:800;letter-spacing:-.04em}
+      .mobile-nav-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #E5E7EB;border-radius:50%;font-size:28px;font-weight:300;line-height:1;color:#111}
+      .nav-right .nav-links{display:flex;flex-direction:column;gap:4px;padding:18px 12px 8px}
+      .nav-right .nav-links a{display:flex;align-items:center;min-height:52px;padding:0 14px;border-radius:12px;font-size:16px;font-weight:600;color:#111}
+      .nav-right .nav-links a.is-active{background:#F0FDF4;color:#15803D}
+      .nav-right .auth-area{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:8px 12px 0}
+      .nav-right .auth-area>div,.nav-right .auth-area .btn{width:100%}
+      .nav-right .profile-trigger{width:100%;justify-content:flex-start;min-height:52px}
+      .nav-right>.btn-primary{width:calc(100% - 24px);margin:12px}
+      .nav-right .profile-dropdown{position:static;display:none;box-shadow:none;margin-top:4px}
+      .nav-right .profile-menu.is-open .profile-dropdown{display:block}
+      .nav-toggle{position:relative;z-index:111}
+      .nav-open .nav-toggle{opacity:0;pointer-events:none}
     }
-
-    @media (min-width: 861px) {
-      .mobile-nav-header,
-      .nav-backdrop {
-        display: none;
-      }
-    }
+    @media (min-width:861px){.mobile-nav-header,.nav-backdrop{display:none}}
   `;
   document.head.appendChild(style);
 }
@@ -259,46 +108,19 @@ function installMobileNavStyles() {
 function renderFooter() {
   const root = document.getElementById('footer-root');
   if (!root) return;
-
   root.innerHTML = `
     <footer>
       <div class="container">
         <div class="footer-top">
-          <div class="footer-brand">
-            <span class="logo-wordmark footer-wordmark">HOOKOS</span>
-            <p class="footer-tag">From Idea To Reel.</p>
-          </div>
-
-          <div class="footer-social">
-            <h3>Contact</h3>
-            <div class="social-links">
-              <a class="social-link" href="https://www.instagram.com/hookos.v3?igsh=NDJkYzNvdnVrazlj" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Instagram (opens in a new tab)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1"/></svg>
-              </a>
-              <a class="social-link" href="https://youtube.com/@hookos-v3?si=Vhg6vVhdCLvX921b" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on YouTube (opens in a new tab)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.3 15 12l-4.5 2.7z" fill="currentColor" stroke="none"/></svg>
-              </a>
-              <a class="social-link" href="https://discord.gg/hookos" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Discord (opens in a new tab)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.5 8.5C9 7 15 7 17.5 8.5c1 3 1.3 6 1 9-1.5 1.2-3 1.8-4.4 2l-.7-1.4c.8-.2 1.5-.5 2.2-1-1.9.9-4 1.3-6.1.9-.9-.2-1.8-.5-2.6-.9.7.5 1.4.8 2.2 1L8.4 19.5c-1.4-.2-2.9-.8-4.4-2-.3-3.5.2-6.5 1-9z"/><circle cx="9.2" cy="14" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.8" cy="14" r="1.15" fill="currentColor" stroke="none"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <div class="footer-legal">
-            <h3>Legal</h3>
-            <ul class="footer-legal-links">
-              <li><a href="privacy.html">Privacy Policy</a></li>
-              <li><a href="terms.html">Terms of Service</a></li>
-              <li><a href="cookies.html">Cookie Policy</a></li>
-              <li><a href="data-deletion.html">Data Deletion</a></li>
-            </ul>
-          </div>
+          <div class="footer-brand"><span class="logo-wordmark footer-wordmark">HOOKOS</span><p class="footer-tag">From Idea To Reel.</p></div>
+          <div class="footer-social"><h3>Contact</h3><div class="social-links">
+            <a class="social-link" href="https://www.instagram.com/hookos.v3?igsh=NDJkYzNvdnVrazlj" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1"/></svg></a>
+            <a class="social-link" href="https://youtube.com/@hookos-v3?si=Vhg6vVhdCLvX921b" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.3 15 12l-4.5 2.7z" fill="currentColor" stroke="none"/></svg></a>
+            <a class="social-link" href="https://discord.gg/hookos" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Discord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 8.5C9 7 15 7 17.5 8.5c1 3 1.3 6 1 9-1.5 1.2-3 1.8-4.4 2l-.7-1.4c.8-.2 1.5-.5 2.2-1-1.9.9-4 1.3-6.1.9-.9-.2-1.8-.5-2.6-.9.7.5 1.4.8 2.2 1L8.4 19.5c-1.4-.2-2.9-.8-4.4-2-.3-3.5.2-6.5 1-9z"/><circle cx="9.2" cy="14" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.8" cy="14" r="1.15" fill="currentColor" stroke="none"/></svg></a>
+          </div></div>
+          <div class="footer-legal"><h3>Legal</h3><ul class="footer-legal-links"><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="cookies.html">Cookie Policy</a></li><li><a href="data-deletion.html">Data Deletion</a></li></ul></div>
         </div>
-
-        <div class="footer-bottom">
-          <span>© 2026 HookOS. All rights reserved.</span>
-          <span>v1.0.0 · Built by NOTX4.EXE</span>
-        </div>
+        <div class="footer-bottom"><span>© 2026 HookOS. All rights reserved.</span><span>v1.0.0 · Built by NOTX4.EXE</span></div>
       </div>
     </footer>`;
 }
@@ -308,46 +130,48 @@ function initNavInteractions() {
   const nav = document.getElementById('nav-right');
   const backdrop = document.getElementById('nav-backdrop');
   const closeButton = document.getElementById('mobile-nav-close');
-
   if (toggle && nav) {
-    const closeNav = () => {
-      document.body.classList.remove('nav-open');
-      toggle.setAttribute('aria-expanded', 'false');
-    };
-
-    toggle.addEventListener('click', () => {
-      const isOpen = document.body.classList.toggle('nav-open');
-      toggle.setAttribute('aria-expanded', String(isOpen));
-    });
-
+    const closeNav = () => { document.body.classList.remove('nav-open'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Open menu'); };
+    toggle.addEventListener('click', () => { const isOpen = document.body.classList.toggle('nav-open'); toggle.setAttribute('aria-expanded',String(isOpen)); toggle.setAttribute('aria-label',isOpen?'Close menu':'Open menu'); });
     if (closeButton) closeButton.addEventListener('click', closeNav);
     if (backdrop) backdrop.addEventListener('click', closeNav);
-
-    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNav));
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeNav();
-    });
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
   }
-
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', e => {
     const trigger = e.target.closest('#profile-trigger');
     const menu = document.getElementById('profile-menu');
-    if (trigger && menu) {
-      const isOpen = menu.classList.toggle('is-open');
-      trigger.setAttribute('aria-expanded', String(isOpen));
-    } else if (menu && !e.target.closest('#profile-menu')) {
-      menu.classList.remove('is-open');
-    }
+    if (trigger && menu) { const isOpen = menu.classList.toggle('is-open'); trigger.setAttribute('aria-expanded',String(isOpen)); }
+    else if (menu && !e.target.closest('#profile-menu')) { menu.classList.remove('is-open'); }
   });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    renderNavbar();
-    renderFooter();
-  });
-} else {
-  renderNavbar();
-  renderFooter();
+function ensureDeleteModal() {
+  if (document.getElementById('hookos-delete-modal')) return;
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="hookos-modal-backdrop" id="hookos-delete-backdrop"></div>
+    <div class="hookos-modal" id="hookos-delete-modal" role="dialog" aria-modal="true" aria-labelledby="hookos-delete-title" aria-describedby="hookos-delete-desc">
+      <h2 id="hookos-delete-title">Delete blueprint?</h2>
+      <p id="hookos-delete-desc">This will permanently remove this blueprint from your history.</p>
+      <div class="hookos-modal-actions"><button type="button" class="hookos-modal-cancel" id="hookos-delete-cancel">Cancel</button><button type="button" class="hookos-modal-delete" id="hookos-delete-confirm">Delete</button></div>
+    </div>`);
+
+  const backdrop = document.getElementById('hookos-delete-backdrop');
+  const modal = document.getElementById('hookos-delete-modal');
+  const cancel = document.getElementById('hookos-delete-cancel');
+  const confirm = document.getElementById('hookos-delete-confirm');
+  let lastTrigger = null;
+
+  const close = () => { modal.classList.remove('is-open'); backdrop.classList.remove('is-open'); document.body.style.overflow=''; if(lastTrigger) lastTrigger.focus(); };
+  window.hookosOpenDeleteModal = (trigger, onConfirm) => {
+    lastTrigger = trigger || document.activeElement;
+    modal.classList.add('is-open'); backdrop.classList.add('is-open'); document.body.style.overflow='hidden'; cancel.focus();
+    confirm.onclick = () => { close(); if (typeof onConfirm === 'function') onConfirm(); };
+  };
+  cancel.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('is-open')) close(); });
 }
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { renderNavbar(); renderFooter(); ensureDeleteModal(); });
+else { renderNavbar(); renderFooter(); ensureDeleteModal(); }
