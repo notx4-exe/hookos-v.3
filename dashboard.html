@@ -12,55 +12,8 @@
 <link rel="stylesheet" href="mobile-ux-polish.css">
 <link rel="stylesheet" href="referral-footer.css">
 <style>
-  .dashboard-shell{padding:54px 0 90px;background:var(--hookos-bg)}
-  .dashboard-wrap{max-width:1060px}
-  .dashboard-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
-  .dashboard-kicker{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6B7280;margin-bottom:10px}
-  .dashboard-hero h1{margin:0;font-size:clamp(40px,7vw,68px);line-height:.98;letter-spacing:-.06em}
-  .dashboard-hero p{margin:12px 0 0;max-width:560px;color:#6B7280;font-size:18px;line-height:1.5}
-  .dashboard-create{flex-shrink:0}
-  .dashboard-stats{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}
-  .dashboard-card{background:#fff;border:1px solid var(--hookos-border);border-radius:24px;padding:24px;box-shadow:0 10px 34px rgba(0,0,0,.035)}
-  .usage-card{min-height:215px;display:flex;flex-direction:column;justify-content:space-between}
-  .card-eyebrow{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#6B7280}
-  .usage-number{font-size:clamp(52px,9vw,76px);font-weight:850;letter-spacing:-.07em;line-height:1;margin-top:18px}
-  .usage-number span{font-size:.45em;color:#9CA3AF;font-weight:700;letter-spacing:-.03em}
-  .usage-copy{margin-top:10px;color:#6B7280;font-size:16px}
-  .usage-bar{height:9px;background:#E5E7EB;border-radius:999px;overflow:hidden;margin-top:22px}
-  .usage-bar span{display:block;height:100%;width:100%;background:#16A34A;border-radius:inherit;transition:width .3s ease}
-  .account-card h2{margin:8px 0 10px;font-size:27px;letter-spacing:-.035em}
-  .account-email{font-weight:700;word-break:break-word;font-size:16px}
-  .account-name,.account-plan{color:#6B7280;margin-top:6px}
-  .dashboard-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-  .danger-button{border:1px solid #E5E7EB;background:transparent;color:#B91C1C;border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}
-  .danger-button:hover{background:#FEF2F2;border-color:#FECACA}
-  .history-card{padding:24px}
-  .history-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
-  .history-head h2{margin:0;font-size:28px;letter-spacing:-.04em}
-  .history-list{display:grid;gap:12px}
-  .history-item{border:1px solid var(--hookos-border);border-radius:18px;padding:17px;background:#fff}
-  .history-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
-  .history-item h3{margin:0 0 6px;font-size:17px;letter-spacing:-.02em;line-height:1.25}
-  .history-meta{font-size:12px;color:#6B7280}
-  .history-preview{margin-top:11px;color:#6B7280;line-height:1.5;font-size:14px}
-  .mini-btn{border:1px solid var(--hookos-border);background:transparent;border-radius:10px;padding:8px 11px;cursor:pointer;font:inherit;font-size:12px;font-weight:700;min-height:40px}
-  .mini-btn:hover{background:var(--hookos-green-wash);border-color:#BBF7D0}
-  .dashboard-empty{padding:38px 16px;text-align:center;color:#6B7280;border:1px dashed var(--hookos-border);border-radius:16px}
-  .dashboard-loading{color:#6B7280}
-  @media(max-width:760px){
-    .dashboard-shell{padding:34px 0 60px}
-    .dashboard-hero{display:block}
-    .dashboard-hero p{font-size:16px}
-    .dashboard-create{width:100%;margin-top:20px}
-    .dashboard-create .btn{width:100%}
-    .dashboard-stats{grid-template-columns:1fr}
-    .dashboard-card{padding:20px;border-radius:20px}
-    .history-card{padding:20px}
-    .history-head{align-items:flex-start}
-    .history-head h2{font-size:26px}
-    .history-item-head{gap:12px}
-    .history-item h3{font-size:16px}
-  }
+.dashboard-shell{padding:54px 0 90px;background:var(--hookos-bg)}.dashboard-wrap{max-width:1060px}.dashboard-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}.dashboard-kicker{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6B7280;margin-bottom:10px}.dashboard-hero h1{margin:0;font-size:clamp(40px,7vw,68px);line-height:.98;letter-spacing:-.06em}.dashboard-hero p{margin:12px 0 0;max-width:560px;color:#6B7280;font-size:18px;line-height:1.5}.dashboard-create{flex-shrink:0}.dashboard-stats{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}.dashboard-card{background:#fff;border:1px solid var(--hookos-border);border-radius:24px;padding:24px;box-shadow:0 10px 34px rgba(0,0,0,.035)}.usage-card{min-height:215px;display:flex;flex-direction:column;justify-content:space-between}.card-eyebrow{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#6B7280}.usage-number{font-size:clamp(52px,9vw,76px);font-weight:850;letter-spacing:-.07em;line-height:1;margin-top:18px}.usage-number span{font-size:.45em;color:#9CA3AF;font-weight:700;letter-spacing:-.03em}.usage-copy{margin-top:10px;color:#6B7280;font-size:16px}.usage-bar{height:9px;background:#E5E7EB;border-radius:999px;overflow:hidden;margin-top:22px}.usage-bar span{display:block;height:100%;width:100%;background:#16A34A;border-radius:inherit;transition:width .3s ease}.account-card h2{margin:8px 0 10px;font-size:27px;letter-spacing:-.035em}.account-email{font-weight:700;word-break:break-word;font-size:16px}.account-name,.account-plan{color:#6B7280;margin-top:6px}.dashboard-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.danger-button{border:1px solid #E5E7EB;background:transparent;color:#B91C1C;border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.danger-button:hover{background:#FEF2F2;border-color:#FECACA}.history-card{padding:24px}.history-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}.history-head h2{margin:0;font-size:28px;letter-spacing:-.04em}.history-list{display:grid;gap:12px}.history-item{border:1px solid var(--hookos-border);border-radius:18px;padding:17px;background:#fff}.history-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.history-item h3{margin:0 0 6px;font-size:17px;letter-spacing:-.02em;line-height:1.25}.history-meta{font-size:12px;color:#6B7280}.history-preview{margin-top:11px;color:#6B7280;line-height:1.5;font-size:14px}.mini-btn{border:1px solid var(--hookos-border);background:transparent;border-radius:10px;padding:8px 11px;cursor:pointer;font:inherit;font-size:12px;font-weight:700;min-height:40px}.mini-btn:hover{background:var(--hookos-green-wash);border-color:#BBF7D0}.dashboard-empty{padding:38px 16px;text-align:center;color:#6B7280;border:1px dashed var(--hookos-border);border-radius:16px}.dashboard-loading{color:#6B7280}
+@media(max-width:760px){.dashboard-shell{padding:34px 0 60px}.dashboard-hero{display:block}.dashboard-hero p{font-size:16px}.dashboard-create{width:100%;margin-top:20px}.dashboard-create .btn{width:100%}.dashboard-stats{grid-template-columns:1fr}.dashboard-card{padding:20px;border-radius:20px}.history-card{padding:20px}.history-head{align-items:flex-start}.history-head h2{font-size:26px}.history-item-head{gap:12px}.history-item h3{font-size:16px}}
 </style>
 </head>
 <body>
@@ -68,35 +21,13 @@
 <div id="navbar-root" class="navbar-placeholder"></div>
 <main id="main" class="dashboard-shell">
   <div class="container dashboard-wrap">
-    <header class="dashboard-hero">
-      <div>
-        <div class="dashboard-kicker">Your workspace</div>
-        <h1>Dashboard.</h1>
-        <p>Manage your account, track today's generation limit, and revisit your blueprints.</p>
-      </div>
-      <div class="dashboard-create"><a class="btn btn-primary btn-lg" href="index.html#generator">Generate My Reel →</a></div>
-    </header>
+    <header class="dashboard-hero"><div><div class="dashboard-kicker">Your workspace</div><h1>Dashboard.</h1><p>Manage your account, track today's generation limit, and revisit your blueprints.</p></div><div class="dashboard-create"><a class="btn btn-primary btn-lg" href="index.html#generator">Generate My Reel →</a></div></header>
     <div class="dashboard-stats">
-      <section class="dashboard-card usage-card" aria-labelledby="usage-title">
-        <div><div class="card-eyebrow" id="usage-title">Available today</div><div class="usage-number"><span id="usage-number">—</span> <span>/ 3</span></div><div class="usage-copy" id="usage-copy">Loading your daily generation limit…</div></div>
-        <div class="usage-bar" aria-hidden="true"><span id="usage-bar"></span></div>
-      </section>
-      <section class="dashboard-card account-card" aria-labelledby="account-title">
-        <div class="card-eyebrow">Account</div><h2 id="account-title">Your account</h2><div class="account-email" id="account-email">Loading…</div><div class="account-name" id="account-name"></div><div class="account-plan" id="account-plan"></div>
-        <div class="dashboard-actions"><a class="btn btn-secondary" href="#history">History</a><button class="danger-button" type="button" data-action="delete-account">Delete account</button></div>
-      </section>
+      <section class="dashboard-card usage-card" aria-labelledby="usage-title"><div><div class="card-eyebrow" id="usage-title">Available today</div><div class="usage-number"><span id="usage-number">—</span> <span>/ 3</span></div><div class="usage-copy" id="usage-copy">Loading your daily generation limit…</div></div><div class="usage-bar" aria-hidden="true"><span id="usage-bar"></span></div></section>
+      <section class="dashboard-card account-card" aria-labelledby="account-title"><div class="card-eyebrow">Account</div><h2 id="account-title">Your account</h2><div class="account-email" id="account-email">Loading…</div><div class="account-name" id="account-name"></div><div class="account-plan" id="account-plan"></div><div class="dashboard-actions"><a class="btn btn-secondary" href="#history">History</a><button class="danger-button" type="button" data-action="delete-account">Delete account</button></div></section>
     </div>
-    <section class="dashboard-card" id="referral" aria-labelledby="referral-heading">
-      <div class="card-eyebrow">Refer & Earn</div>
-      <h2 id="referral-heading">Need more generations?</h2>
-      <p class="referral-copy">Invite a friend to HookOS. When they successfully join, you get <strong>+2 generations.</strong></p>
-      <div class="referral-actions"><button type="button" class="referral-copy-btn" id="hookos-copy-referral">Copy Invite Link ↗</button></div>
-      <div class="referral-meta" id="hookos-referral-meta"><span>+2 generations per successful referral</span></div>
-    </section>
-    <section class="dashboard-card history-card" id="history" aria-labelledby="history-title">
-      <div class="history-head"><h2 id="history-title">History</h2><span class="dashboard-loading" id="history-count"></span></div>
-      <div id="history-list" class="history-list"><div class="dashboard-empty">Loading history…</div></div>
-    </section>
+    <section class="dashboard-card" id="referral" aria-labelledby="referral-heading"><div class="card-eyebrow">Refer &amp; Earn</div><h2 id="referral-heading">Need more generations?</h2><p class="referral-copy">Invite a friend to HookOS. When they successfully join, you get <strong>+2 generations.</strong></p><div class="referral-actions"><button type="button" class="referral-copy-btn" id="hookos-copy-referral">Copy Invite Link ↗</button></div><div class="referral-meta" id="hookos-referral-meta"><span>Referral data will appear here when referral support is available.</span></div></section>
+    <section class="dashboard-card history-card" id="history" aria-labelledby="history-title"><div class="history-head"><h2 id="history-title">History</h2><span class="dashboard-loading" id="history-count"></span></div><div id="history-list" class="history-list"><div class="dashboard-empty">Loading history…</div></div></section>
   </div>
 </main>
 <div id="footer-root"></div>
