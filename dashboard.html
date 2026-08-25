@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="fixes.css">
 <link rel="stylesheet" href="redesign.css">
 <link rel="stylesheet" href="mobile-ux-polish.css">
+<link rel="stylesheet" href="referral-footer.css">
 <style>
   .dashboard-shell{padding:54px 0 90px;background:var(--hookos-bg)}
   .dashboard-wrap{max-width:1060px}
@@ -75,30 +76,23 @@
       </div>
       <div class="dashboard-create"><a class="btn btn-primary btn-lg" href="index.html#generator">Generate My Reel →</a></div>
     </header>
-
     <div class="dashboard-stats">
       <section class="dashboard-card usage-card" aria-labelledby="usage-title">
-        <div>
-          <div class="card-eyebrow" id="usage-title">Available today</div>
-          <div class="usage-number"><span id="usage-number">—</span> <span>/ 3</span></div>
-          <div class="usage-copy" id="usage-copy">Loading your daily generation limit…</div>
-        </div>
+        <div><div class="card-eyebrow" id="usage-title">Available today</div><div class="usage-number"><span id="usage-number">—</span> <span>/ 3</span></div><div class="usage-copy" id="usage-copy">Loading your daily generation limit…</div></div>
         <div class="usage-bar" aria-hidden="true"><span id="usage-bar"></span></div>
       </section>
-
       <section class="dashboard-card account-card" aria-labelledby="account-title">
-        <div class="card-eyebrow">Account</div>
-        <h2 id="account-title">Your account</h2>
-        <div class="account-email" id="account-email">Loading…</div>
-        <div class="account-name" id="account-name"></div>
-        <div class="account-plan" id="account-plan"></div>
-        <div class="dashboard-actions">
-          <a class="btn btn-secondary" href="#history">History</a>
-          <button class="danger-button" type="button" data-action="delete-account">Delete account</button>
-        </div>
+        <div class="card-eyebrow">Account</div><h2 id="account-title">Your account</h2><div class="account-email" id="account-email">Loading…</div><div class="account-name" id="account-name"></div><div class="account-plan" id="account-plan"></div>
+        <div class="dashboard-actions"><a class="btn btn-secondary" href="#history">History</a><button class="danger-button" type="button" data-action="delete-account">Delete account</button></div>
       </section>
     </div>
-
+    <section class="dashboard-card" id="referral" aria-labelledby="referral-heading">
+      <div class="card-eyebrow">Refer & Earn</div>
+      <h2 id="referral-heading">Need more generations?</h2>
+      <p class="referral-copy">Invite a friend to HookOS. When they successfully join, you get <strong>+2 generations.</strong></p>
+      <div class="referral-actions"><button type="button" class="referral-copy-btn" id="hookos-copy-referral">Copy Invite Link ↗</button></div>
+      <div class="referral-meta" id="hookos-referral-meta"><span>+2 generations per successful referral</span></div>
+    </section>
     <section class="dashboard-card history-card" id="history" aria-labelledby="history-title">
       <div class="history-head"><h2 id="history-title">History</h2><span class="dashboard-loading" id="history-count"></span></div>
       <div id="history-list" class="history-list"><div class="dashboard-empty">Loading history…</div></div>
@@ -106,6 +100,6 @@
   </div>
 </main>
 <div id="footer-root"></div>
-<script src="config.js"></script><script src="partials.js"></script><script src="auth.js"></script><script src="account-ui.js"></script><script src="dashboard.js"></script>
+<script src="config.js"></script><script src="partials.js"></script><script src="auth.js"></script><script src="account-ui.js"></script><script src="dashboard.js"></script><script src="referral-ui.js"></script>
 </body>
 </html>
