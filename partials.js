@@ -8,6 +8,7 @@ function hookosCurrentPageKey() {
   if (file === 'tutorial.html') return 'tutorial';
   if (file === 'support.html') return 'support';
   if (file === 'dashboard.html') return 'dashboard';
+  if (file === 'pricing.html') return 'pricing';
   return null;
 }
 
@@ -24,12 +25,19 @@ function renderNavbar() {
         <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
         <nav class="nav-right" id="nav-right" aria-label="Primary">
           <div class="mobile-nav-header"><span class="mobile-nav-title">HOOKOS</span><button type="button" class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">×</button></div>
-          <ul class="nav-links">
+          <ul class="nav-links nav-links-core">
             ${navItem('home', 'index.html', 'Product')}
             ${navItem('generator', 'index.html#generator', 'Generator')}
             ${navItem('how-it-works', 'index.html#how-it-works', 'How It Works')}
             ${navItem('pricing', 'pricing.html', 'Pricing')}
           </ul>
+          <div class="mobile-account-links" aria-label="Account">
+            <div data-auth-state="signed-out"><a class="mobile-nav-link" href="index.html" data-action="google-login"><span>Sign In</span><span aria-hidden="true">→</span></a></div>
+            <div data-auth-state="signed-in">
+              <a class="mobile-nav-link" href="dashboard.html#history"><span>History</span><span aria-hidden="true">→</span></a>
+              <button type="button" class="mobile-nav-link mobile-nav-logout" data-action="logout"><span>Logout</span><span aria-hidden="true">→</span></button>
+            </div>
+          </div>
           <div class="auth-area">
             <div data-auth-state="signed-out" class="is-active"><button type="button" class="btn btn-google" data-action="google-login"><span>Sign In</span></button></div>
             <div data-auth-state="signed-in" class="profile-menu" id="profile-menu">
@@ -54,24 +62,26 @@ function installMobileNavStyles() {
       body.nav-open{overflow:hidden}
       .nav-backdrop{position:fixed;inset:0;z-index:109;background:rgba(17,19,18,.34);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
       .nav-open .nav-backdrop{opacity:1;visibility:visible;pointer-events:auto}
-      .nav-right{z-index:110;position:fixed;inset:0 auto 0 0;width:min(360px,88vw);height:100dvh;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;background:#fff;border-right:1px solid #E5E7EB;border-radius:0 24px 24px 0;box-shadow:18px 0 56px rgba(0,0,0,.14);transform:translateX(-104%);visibility:hidden;pointer-events:none;overflow-y:auto;overscroll-behavior:contain;transition:transform .28s cubic-bezier(.16,1,.3,1),visibility .28s ease}
+      .nav-right{z-index:110;position:fixed;inset:0 0 0 auto;width:min(360px,88vw);height:100dvh;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;background:#fff;border-left:1px solid #E5E7EB;border-radius:24px 0 0 24px;box-shadow:-18px 0 56px rgba(0,0,0,.14);transform:translateX(104%);visibility:hidden;pointer-events:none;overflow-y:auto;overscroll-behavior:contain;transition:transform .28s cubic-bezier(.16,1,.3,1),visibility .28s ease}
       .nav-open .nav-right{transform:translateX(0);visibility:visible;pointer-events:auto}
       .mobile-nav-header{display:flex;align-items:center;justify-content:space-between;min-height:72px;padding:0 18px 0 22px;border-bottom:1px solid #E5E7EB;flex-shrink:0}
       .mobile-nav-title{font-size:20px;font-weight:800;letter-spacing:-.04em}
-      .mobile-nav-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #E5E7EB;border-radius:50%;font-size:28px;font-weight:300;line-height:1;color:#111}
-      .nav-right .nav-links{display:flex;flex-direction:column;gap:4px;padding:18px 12px 8px}
-      .nav-right .nav-links a{display:flex;align-items:center;min-height:52px;padding:0 14px;border-radius:12px;font-size:16px;font-weight:600;color:#111}
-      .nav-right .nav-links a.is-active{background:#F0FDF4;color:#15803D}
-      .nav-right .auth-area{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:8px 12px 0}
-      .nav-right .auth-area>div,.nav-right .auth-area .btn{width:100%}
-      .nav-right .profile-trigger{width:100%;justify-content:flex-start;min-height:52px}
-      .nav-right>.btn-primary{width:calc(100% - 24px);margin:12px}
-      .nav-right .profile-dropdown{position:static;display:none;box-shadow:none;margin-top:4px}
-      .nav-right .profile-menu.is-open .profile-dropdown{display:block}
+      .mobile-nav-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #E5E7EB;border-radius:50%;font-size:28px;font-weight:300;line-height:1;color:#111;background:#fff}
+      .nav-right .nav-links-core{display:flex;flex-direction:column;gap:4px;padding:14px 12px 8px}
+      .nav-right .nav-links-core a{display:flex;align-items:center;min-height:50px;padding:0 14px;border-radius:12px;font-size:16px;font-weight:600;color:#111}
+      .nav-right .nav-links-core a.is-active{background:#F0FDF4;color:#15803D}
+      .mobile-account-links{display:flex;flex-direction:column;gap:4px;padding:4px 12px 0}
+      .mobile-account-links>div{display:none}
+      .mobile-account-links>div.is-active{display:block}
+      .mobile-nav-link{width:100%;min-height:50px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border:0;border-radius:12px;background:transparent;color:#111;font:inherit;font-size:16px;font-weight:650;text-align:left;text-decoration:none;cursor:pointer}
+      .mobile-nav-link:hover{background:#F7F7F7}
+      .mobile-nav-logout{color:#B91C1C}
+      .nav-right .auth-area,.nav-right>.btn-primary{display:none}
+      .nav-right .profile-dropdown{position:static;display:none}
       .nav-toggle{position:relative;z-index:111}
       .nav-open .nav-toggle{opacity:0;pointer-events:none}
     }
-    @media (min-width:861px){.mobile-nav-header,.nav-backdrop{display:none}}
+    @media (min-width:861px){.mobile-nav-header,.nav-backdrop,.mobile-account-links{display:none}}
   `;
   document.head.appendChild(style);
 }
@@ -96,7 +106,7 @@ function renderFooter() {
           </div></div>
           <div class="footer-column"><h3>Legal</h3><ul class="footer-legal-links"><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="cookies.html">Cookie Policy</a></li><li><a href="data-deletion.html">Data Deletion</a></li></ul></div>
         </div>
-        <div class="footer-bottom"><span>© 2026 HookOS. All rights reserved.</span><span>v1.0.0 · Built by NOTX4.EXE</span></div>
+        <div class="footer-bottom"><span>© 2026 HookOS. All rights reserved.</span><span>v4.1 · Built by NOTX4.EXE</span></div>
       </div>
     </footer>`;
 }
@@ -112,6 +122,7 @@ function initNavInteractions() {
     if (closeButton) closeButton.addEventListener('click', closeNav);
     if (backdrop) backdrop.addEventListener('click', closeNav);
     nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    nav.querySelectorAll('button[data-action="logout"]').forEach(button => button.addEventListener('click', closeNav));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
   }
   document.addEventListener('click', e => {
