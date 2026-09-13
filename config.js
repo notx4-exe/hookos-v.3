@@ -17,17 +17,37 @@ const HookosAPI = (() => {
   let csrfToken = null;
   const TOKEN_KEY = 'hookos_access_token';
 
+  // Auth must survive page refreshes and returning to the site later.
+  // Keep a small migration path for users who were previously authenticated
+  // with the old sessionStorage-only implementation.
   function getAccessToken() {
-    try { return sessionStorage.getItem(TOKEN_KEY); } catch (_) { return null; }
+    try {
+      const persistentToken = localStorage.getItem(TOKEN_KEY);
+      if (persistentToken) return persistentToken;
+
+      const legacyToken = sessionStorage.getItem(TOKEN_KEY);
+      if (legacyToken) {
+        localStorage.setItem(TOKEN_KEY, legacyToken);
+        return legacyToken;
+      }
+    } catch (_) {}
+    return null;
   }
 
   function setAccessToken(token) {
     if (!token) return;
-    try { sessionStorage.setItem(TOKEN_KEY, token); } catch (_) {}
+    try {
+      localStorage.setItem(TOKEN_KEY, token);
+      // Remove the legacy copy so there is one source of truth.
+      sessionStorage.removeItem(TOKEN_KEY);
+    } catch (_) {}
   }
 
   function clearAccessToken() {
-    try { sessionStorage.removeItem(TOKEN_KEY); } catch (_) {}
+    try {
+      localStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(TOKEN_KEY);
+    } catch (_) {}
   }
 
   async function ensureCsrfToken() {
