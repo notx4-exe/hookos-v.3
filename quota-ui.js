@@ -12,18 +12,17 @@
     const style = document.createElement('style');
     style.id = 'hookos-quota-styles';
     style.textContent = `
-      .generation-quota{margin:8px 0 0;color:var(--text-secondary);font-size:13px;line-height:1.45;min-height:19px}
-      .generation-quota.is-limit{color:#b42318}
-      .generation-quota.is-ready{color:#444}
+      /* Quota is enforced by the API but intentionally not shown in the generator UI. */
+      .generation-quota{display:none!important}
       #turnstile-container{display:flex;justify-content:center;margin:14px 0}
       .hookos-idea-wrap{position:relative}
       .hookos-idea-wrap #idea-input{transition:border-color .18s ease,box-shadow .18s ease}
-      .hookos-idea-wrap.is-auth-required #idea-input{border-color:#111;box-shadow:0 0 0 3px rgba(0,0,0,.06)}
-      .hookos-inline-auth{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:10px 0 0;padding:12px 14px;border:1px solid #e6e6e6;border-radius:14px;background:#fafafa;color:#333;font-size:13px;line-height:1.4}
+      .hookos-idea-wrap.is-auth-required #idea-input{border-color:#313841;box-shadow:0 0 0 3px rgba(49,56,65,.08)}
+      .hookos-inline-auth{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:10px 0 0;padding:12px 14px;border:1px solid rgba(49,56,65,.18);border-radius:14px;background:#EEEEEE;color:#313841;font-size:13px;line-height:1.4}
       .hookos-inline-auth-copy{min-width:0}
-      .hookos-inline-auth-title{font-weight:750;color:#111;margin-bottom:2px}
-      .hookos-inline-auth-text{color:#666}
-      .hookos-inline-auth button{flex:0 0 auto;border:1px solid #111;background:#111;color:#fff;border-radius:10px;padding:9px 13px;font:inherit;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
+      .hookos-inline-auth-title{font-weight:750;color:#313841;margin-bottom:2px}
+      .hookos-inline-auth-text{color:rgba(49,56,65,.72)}
+      .hookos-inline-auth button{flex:0 0 auto;border:1px solid #313841;background:#FBFC09;color:#313841;border-radius:10px;padding:9px 13px;font:inherit;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
       .hookos-inline-auth button:hover{opacity:.9}
       .hookos-inline-auth[hidden]{display:none}
       @media(max-width:560px){
@@ -37,12 +36,10 @@
   function ensureQuotaElement() {
     const textarea = document.getElementById('idea-input');
     if (!textarea || document.getElementById('generation-quota')) return;
-
     const el = document.createElement('p');
     el.id = 'generation-quota';
     el.className = 'generation-quota';
     el.setAttribute('aria-live', 'polite');
-    el.textContent = `Sign in with Google to generate · ${LIMIT} free generations per day.`;
     textarea.insertAdjacentElement('afterend', el);
   }
 
@@ -52,10 +49,10 @@
 
     textarea.placeholder = 'Tell me what you’re creating today...';
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'hookos-idea-wrap';
-    textarea.parentNode.insertBefore(wrapper, textarea);
-    wrapper.appendChild(textarea);
+    const wrapper = textarea.closest('.hookos-idea-wrap') || textarea.parentNode;
+    if (!wrapper.classList.contains('hookos-idea-wrap')) {
+      wrapper.classList.add('hookos-idea-wrap');
+    }
 
     const message = document.createElement('div');
     message.id = 'hookos-inline-auth';
@@ -64,7 +61,7 @@
     message.innerHTML = `
       <div class="hookos-inline-auth-copy">
         <div class="hookos-inline-auth-title">One small thing — sign in first.</div>
-        <div class="hookos-inline-auth-text">Your 3 free generations are saved to your account.</div>
+        <div class="hookos-inline-auth-text">Your generation is saved to your account.</div>
       </div>
       <button type="button" data-action="google-login">Sign in with Google</button>
     `;
@@ -81,7 +78,7 @@
     if (!message || !wrapper) return;
     message.hidden = false;
     wrapper.classList.add('is-auth-required');
-    textarea.setAttribute('aria-describedby', 'hookos-inline-auth generation-quota');
+    textarea.setAttribute('aria-describedby', 'hookos-inline-auth char-count');
   }
 
   function hideAuthRequired() {
@@ -104,7 +101,6 @@
     if (!HOOKOS_CONFIG.TURNSTILE_SITE_KEY) return;
     ensureTurnstileElement();
     if (window.turnstile) return renderTurnstile();
-
     const existing = document.querySelector('script[data-hookos-turnstile]');
     if (existing) return;
     const script = document.createElement('script');
@@ -137,19 +133,10 @@
     ensureQuotaElement();
     const el = document.getElementById('generation-quota');
     if (!el) return;
-
-    if (!usage) {
-      el.textContent = `Sign in with Google to generate · ${LIMIT} free generations per day.`;
-      el.classList.remove('is-limit', 'is-ready');
-      return;
-    }
-
-    const remaining = Math.max(0, Number(usage.remaining ?? LIMIT));
+    const remaining = Math.max(0, Number(usage?.remaining ?? LIMIT));
     el.textContent = remaining === 0
-      ? 'Daily limit reached · 3/3 generations used. Come back tomorrow.'
-      : `${remaining} of ${LIMIT} free generations left today.`;
-    el.classList.toggle('is-limit', remaining === 0);
-    el.classList.toggle('is-ready', remaining > 0);
+      ? 'Daily limit reached.'
+      : `${remaining} generations remaining today.`;
     hideAuthRequired();
   }
 
@@ -172,7 +159,6 @@
     if (HOOKOS_CONFIG.TURNSTILE_SITE_KEY && !turnstileToken) {
       throw new Error('Please complete the human verification before generating.');
     }
-
     const requestPayload = turnstileToken ? { ...payload, turnstileToken } : payload;
     try {
       const response = await originalGenerate(requestPayload);
@@ -191,8 +177,6 @@
     loadTurnstile();
     refreshQuota();
 
-    // Run before the main generator handler so signed-out users get an inline
-    // explanation instead of a generic API error.
     const form = document.getElementById('blueprint-form');
     if (form) {
       form.addEventListener('submit', (event) => {
