@@ -86,6 +86,44 @@ function installMobileNavStyles() {
   document.head.appendChild(style);
 }
 
+function installFooterStyles() {
+  if (document.getElementById('hookos-footer-fixes')) return;
+  const style = document.createElement('style');
+  style.id = 'hookos-footer-fixes';
+  style.textContent = `
+    /* Footer is informational. Never hide it behind scroll-reveal animation. */
+    .hookos-footer, .hookos-footer * { opacity: 1 !important; transform: none !important; visibility: visible !important; }
+    .hookos-footer { color: #111 !important; background: #fff !important; }
+    .hookos-footer .footer-tag,
+    .hookos-footer .footer-community-copy p,
+    .hookos-footer .footer-legal-links a,
+    .hookos-footer .footer-bottom { color: #666 !important; }
+    .hookos-footer .footer-kicker { color: #666 !important; }
+    .hookos-footer .footer-top { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px !important; align-items:start !important; }
+    .hookos-footer .footer-column { min-width:0; }
+    .hookos-footer .footer-column h3 { margin:0 0 16px !important; color:#111 !important; }
+    .hookos-footer .footer-legal-links { gap:10px !important; }
+    .hookos-footer .footer-legal-links li { margin:0 !important; }
+    .hookos-footer .social-links { gap:10px !important; }
+    .hookos-footer .social-link { color:#111 !important; border-color:#EAEAEA !important; }
+    .hookos-footer .social-link:hover { background:#111 !important; border-color:#111 !important; color:#fff !important; }
+    .hookos-footer .footer-referral-strip { display:flex !important; align-items:center !important; justify-content:space-between !important; gap:20px !important; margin:28px 0 40px !important; padding:20px !important; border:1px solid #EAEAEA !important; border-radius:20px !important; background:#fff !important; box-shadow:0 10px 30px rgba(0,0,0,.04) !important; }
+    .hookos-footer .footer-referral-strip > div { display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:center; min-width:0; }
+    .hookos-footer .footer-referral-strip > div:before { content:'↗'; width:36px; height:36px; display:grid; place-items:center; grid-row:1 / span 2; border:1px solid #EAEAEA; border-radius:11px; font-size:18px; font-weight:800; color:#111; }
+    .hookos-footer .footer-referral-strip .footer-kicker { display:block; margin:0; font-size:10px; font-weight:900; letter-spacing:.14em; }
+    .hookos-footer .footer-referral-strip p { margin:3px 0 0; color:#111 !important; font-size:15px; font-weight:700; line-height:1.35; }
+    .hookos-footer .footer-referral-link { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px; border:1px solid #111; border-radius:999px; background:#111; color:#fff !important; font-size:13px; font-weight:800; }
+    .hookos-footer .footer-bottom { margin-top:0 !important; }
+    @media(max-width:700px){
+      .hookos-footer .footer-top { grid-template-columns:1fr !important; gap:28px !important; }
+      .hookos-footer .footer-referral-strip { align-items:flex-start !important; flex-direction:column !important; margin:24px 0 32px !important; }
+      .hookos-footer .footer-referral-strip > div { width:100%; }
+      .hookos-footer .footer-referral-link { width:100%; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function renderFooter() {
   const root = document.getElementById('footer-root');
   if (!root) return;
@@ -109,6 +147,7 @@ function renderFooter() {
         <div class="footer-bottom"><span>© 2026 HookOS. All rights reserved.</span><span>v4.1 · Built by NOTX4.EXE</span></div>
       </div>
     </footer>`;
+  installFooterStyles();
 }
 
 function initNavInteractions() {
