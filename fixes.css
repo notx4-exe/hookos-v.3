@@ -3,11 +3,35 @@
 [hidden]{display:none!important}
 .avatar-img[hidden],.avatar[hidden]{display:none!important}
 
-/* Pill navbar: clear breathing room from the viewport */
-.navbar{position:sticky!important;top:16px!important;background:transparent!important;border:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0 12px;margin:0 0 34px}
-.navbar .container{height:64px!important;max-width:1180px!important;padding:8px 18px!important;background:rgba(255,255,255,.98);border:1px solid #e7e7e7;border-radius:999px;box-shadow:0 12px 34px rgba(0,0,0,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.nav-toggle{background:#111;color:#fff;border-color:#111}.nav-toggle-bars span{background:#fff}.nav-open .nav-toggle-bars span{background:#111}.nav-backdrop{backdrop-filter:none;-webkit-backdrop-filter:none}
-@media(max-width:860px){.navbar{top:14px!important;padding:0 12px;margin:0 0 34px}.navbar .container{height:60px!important;border-radius:999px;padding-inline:16px}.nav-right{top:90px!important;inset:90px 10px auto 10px!important;width:auto!important;height:auto!important;max-height:calc(100dvh - 106px);border:1px solid var(--border);border-radius:28px!important;box-shadow:0 24px 70px rgba(0,0,0,.16)!important}.nav-backdrop{background:rgba(0,0,0,.24)}.nav-open .nav-backdrop{opacity:1;visibility:visible}}
+/* Prevent mobile horizontal overflow. The page must always fit the viewport. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.container{max-width:100%;min-width:0}
+
+/* Shared visual language */
+.navbar{position:sticky!important;top:14px!important;z-index:100!important;background:transparent!important;border:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0 12px;margin:0 0 24px}
+.navbar .container{width:100%;max-width:1180px;height:60px!important;padding:8px 16px!important;background:rgba(255,255,255,.98);border:1px solid #e7e7e7;border-radius:18px;box-shadow:0 12px 34px rgba(0,0,0,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.nav-toggle{background:#111;color:#fff;border-color:#111}.nav-toggle-bars span{background:#fff}
+
+/* Mobile menu stays inside the viewport instead of creating a wide off-screen panel. */
+@media(max-width:860px){
+  .navbar{top:14px!important;padding:0 12px;margin:0 0 24px}
+  .navbar .container{height:58px!important;border-radius:18px;padding-inline:14px}
+  .nav-right{top:84px!important;right:10px!important;bottom:auto!important;left:10px!important;inset:auto 10px auto 10px!important;width:auto!important;height:auto!important;max-height:calc(100dvh - 98px);border:1px solid var(--border);border-radius:22px!important;box-shadow:0 24px 70px rgba(0,0,0,.16)!important}
+  .nav-backdrop{background:rgba(0,0,0,.24)}
+  .nav-open .nav-backdrop{opacity:1;visibility:visible}
+}
+
+/* The homepage uses a narrow V4 shell. Never let its children establish a wider layout. */
+.hookos-v4-page,.v4-shell,.v4-generator-section,.v4-generator-card,.v4-results,.v4-loading-panel{width:100%;max-width:100%;min-width:0}
+.v4-shell{padding-inline:clamp(16px,4vw,24px)}
+.v4-generator-card,.v4-results,.v4-loading-panel{overflow:hidden}
+
+/* Long text and generated content must wrap on small screens. */
+.v4-results .result-body,.v4-results .scene,.v4-results .metric,.v4-results .metric-value{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+
+/* Keep form controls inside their parent width. */
+#blueprint-form,#idea-input,.framework-grid,.framework-chip,.btn-block{max-width:100%;min-width:0}
+#idea-input{width:100%;box-sizing:border-box}
 
 /* HookOS identity accent */
 .hookos-accent{color:#F2C94C}
@@ -39,24 +63,13 @@
 /* Short idea guidance */
 .input-guidance{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:8px;color:#777;font-size:12px;line-height:1.4}.input-guidance-main{max-width:75ch}.input-guidance #char-count{flex:0 0 auto;color:#999}
 
-/* Frameworks: compact mobile-first */
-.framework-grid{gap:10px!important}.framework-chip{padding:14px!important;border-radius:16px!important}.fw-name{font-size:14px!important}.fw-desc{font-size:12px!important;line-height:1.35}.framework-chip .check{width:18px;height:18px}
-
-/* Languages */
-.language-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:820px;margin:0 auto 14px}.language-card{min-height:76px;padding:14px 16px;border:1px solid var(--border);border-radius:16px;background:#fff;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-content:center;box-shadow:0 6px 20px rgba(0,0,0,.03)}.language-check{grid-row:1 / span 2;width:28px;height:28px;border-radius:50%;background:#fff8dd;border:1px solid #f0df98;display:grid;place-items:center;font-weight:900;color:#7a5c00}.language-card strong{font-size:15px;letter-spacing:-.03em}.language-card>span:last-child{color:#888;font-size:11px;margin-top:2px}.coming-soon{max-width:820px;margin:0 auto;padding:12px 16px;border-radius:14px;background:#f2f2f0;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center}.coming-soon span{font-size:10px;font-weight:900;letter-spacing:.16em;color:#777}.coming-soon strong{font-size:12px}
-
-/* Early access: compact and intentional */
-.early-access-shell{width:min(100%,700px);margin:0 auto;border:1px solid var(--border);border-radius:24px;background:#fff;padding:24px;box-shadow:0 14px 42px rgba(0,0,0,.05)}#early-access-form{display:grid;gap:12px}#early-access-form input,#early-access-form textarea{width:100%;border:1px solid var(--border);border-radius:14px;background:var(--bg);padding:14px 16px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}#early-access-form input{min-height:50px}#early-access-form textarea{min-height:92px;resize:vertical}#early-access-form input:focus,#early-access-form textarea:focus{border-color:#b79a3a;box-shadow:0 0 0 3px rgba(242,201,76,.18)}#early-access-form input::placeholder,#early-access-form textarea::placeholder{color:#999}.early-access-note{margin:2px 2px 4px;color:var(--text-secondary);font-size:12px;line-height:1.5;text-align:center}
-
-/* Footer inspired by the supplied Trendy structure: brand + social + legal */
-footer{background:#0b0b0b;color:#fff;padding:56px 0 26px;margin-top:0}footer .footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;padding-bottom:38px;border-bottom:1px solid rgba(255,255,255,.12)}footer .footer-brand p,footer .footer-social h3,footer .footer-legal h3{color:#aaa}footer .footer-brand p{font-size:15px;margin-top:8px;max-width:18ch}footer .footer-social h3,footer .footer-legal h3{font-size:11px;text-transform:uppercase;letter-spacing:.16em;margin-bottom:14px}footer .social-links{display:flex;gap:12px}footer .social-link{width:42px;height:42px;border:1px solid rgba(255,255,255,.16);border-radius:50%;display:grid;place-items:center}footer .social-link:hover{background:#fff;color:#111;border-color:#fff}footer .social-link svg{width:19px;height:19px}footer .footer-legal-links{display:grid;gap:9px}footer .footer-legal-links a{color:#cfcfcf;font-size:14px}footer .footer-legal-links a:hover{color:#fff}footer .footer-bottom{display:flex;justify-content:space-between;gap:20px;padding-top:20px;color:#888;font-size:12px;flex-wrap:wrap}
-
-.profile-menu{width:auto!important;max-width:240px}.profile-trigger{width:auto!important;max-width:240px;min-width:0;min-height:46px;height:46px;padding:5px 12px 5px 6px;border-radius:14px}.profile-trigger [data-user-name]{min-width:0;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:1fr}.process-drawing{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:860px){.nav-right .profile-menu{width:fit-content!important;max-width:240px;align-self:flex-start}.nav-right .profile-trigger{width:auto!important;max-width:240px;min-height:50px;height:50px;padding:6px 14px 6px 7px;border-radius:14px}.nav-right .profile-trigger [data-user-name]{max-width:165px}}
-@media(max-width:700px){.process-drawing{grid-template-columns:1fr;gap:10px}.process-drawing .drawing-step{min-height:118px;padding:18px;border-radius:18px}.process-drawing .drawing-icon{width:42px;height:42px;border-radius:13px;font-size:19px}.process-drawing .drawing-label{font-size:16px}.process-drawing .drawing-caption{font-size:11px;max-width:34ch}.grid-2{grid-template-columns:1fr}.example-input{padding:18px}.output-card{padding:20px}.input-guidance{font-size:11px}.early-access-note{font-size:11px}}
-@media(max-width:640px){.loading-panel{padding:26px 16px 20px;border-radius:20px}.loading-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:20px}.loading-steps .loading-step{min-height:50px;padding:9px 8px;font-size:10.5px}.language-grid{grid-template-columns:1fr}.early-access-shell{padding:20px;border-radius:22px}footer .footer-top{grid-template-columns:1fr 1fr;gap:24px}footer .footer-brand{grid-column:1 / -1}.card,.output-card{padding:20px;border-radius:19px}.output-line{flex-direction:column;gap:4px}.output-line strong{flex-basis:auto}}
-@media(max-width:420px){footer .footer-top{grid-template-columns:1fr}.input-guidance{align-items:flex-start}.input-guidance #char-count{display:none}}
-@media(max-width:360px){.loading-panel{padding-inline:12px}.loading-steps{gap:6px}.loading-steps .loading-step{padding-inline:6px;font-size:10px}}
-@media(prefers-reduced-motion:reduce){.loading-orb,.loading-bar{animation:none!important}}
+@media(max-width:700px){
+  .loading-steps{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .v4-shell{padding-inline:16px}
+  .loading-panel{padding:24px 16px}
+  .loading-steps{grid-template-columns:1fr}
+  .result-card{padding:16px}
+  .metrics-panel{padding:16px}
+}
