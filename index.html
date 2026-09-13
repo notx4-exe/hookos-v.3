@@ -9,6 +9,7 @@
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="fixes.css">
 <link rel="stylesheet" href="redesign.css">
@@ -37,29 +38,29 @@
           <div class="hookos-idea-wrap">
             <textarea id="idea-input" placeholder="What’s your reel about?" aria-labelledby="idea-label" aria-describedby="generation-quota char-count" required></textarea>
           </div>
-          <div class="input-guidance">
-            <span class="input-guidance-main">Be clear. One idea is enough.</span>
-            <span id="char-count">0/500</span>
-          </div>
+          <div class="input-guidance"><span class="input-guidance-main">Be clear. One idea is enough.</span></div>
+          <div class="input-counter-row"><span id="char-count">0/500</span></div>
           <div id="hookos-inline-auth" class="hookos-inline-auth" hidden aria-live="polite"><div class="hookos-inline-auth-copy"><div class="hookos-inline-auth-title">Sign in to keep your blueprint.</div><div class="hookos-inline-auth-text">Your generation is saved to your account history.</div></div><button type="button" data-action="google-login">Sign in with Google</button></div>
 
-          <div class="v4-framework-row">
-            <div class="v4-field-label" id="framework-label">Hook</div>
-            <span class="recommended-note">Recommended</span>
-          </div>
+          <div class="v4-framework-row"><div class="v4-field-label" id="framework-label">Hook</div></div>
           <div class="v4-hook-choice" id="hook-choice">
-            <button type="button" class="hook-choice-main is-selected" id="hook-choice-trigger" aria-expanded="false" aria-controls="hook-choice-options">
-              <span class="hook-choice-radio" aria-hidden="true">✓</span>
-              <span class="hook-choice-copy"><span class="hook-choice-name">Curiosity Gap</span><span class="hook-choice-desc">Opens a gap the viewer wants to close.</span></span>
-            </button>
-            <div class="hook-choice-actions">
-              <button type="button" class="hook-choice-expand" id="hook-choice-expand" aria-expanded="false" aria-controls="hook-choice-options">Explore more</button>
-              <button type="button" class="hook-choice-surprise" id="hook-choice-surprise">✨ Surprise me</button>
+            <button type="button" class="hook-choice-surprise" id="hook-choice-surprise">🎲 Pick one for me</button>
+            <div class="hook-choice-list" id="hook-choice-list" role="radiogroup" aria-labelledby="framework-label">
+              <button type="button" class="hook-choice-card is-selected" data-framework="curiosity-gap" role="radio" aria-checked="true">
+                <span class="hook-choice-card-top"><span class="hook-choice-name">Curiosity Gap</span><span class="hook-choice-recommended">Recommended</span></span>
+                <span class="hook-choice-desc">Opens a gap the viewer wants to close.</span>
+              </button>
             </div>
-            <div class="hook-choice-options" id="hook-choice-options" hidden role="radiogroup" aria-labelledby="framework-label">
-              <button type="button" class="hook-choice-option is-selected" data-framework="curiosity-gap" role="radio" aria-checked="true"><span class="hook-choice-radio" aria-hidden="true">✓</span><span class="hook-choice-name">Curiosity Gap</span></button>
-              <button type="button" class="hook-choice-option" data-framework="story" role="radio" aria-checked="false"><span class="hook-choice-radio" aria-hidden="true"></span><span class="hook-choice-name">Story</span></button>
-              <button type="button" class="hook-choice-option" data-framework="open-loop" role="radio" aria-checked="false"><span class="hook-choice-radio" aria-hidden="true"></span><span class="hook-choice-name">Open Loop</span></button>
+            <button type="button" class="hook-choice-expand" id="hook-choice-expand" aria-expanded="false" aria-controls="hook-choice-options">Explore more</button>
+            <div class="hook-choice-options" id="hook-choice-options" hidden role="group" aria-label="More hook approaches">
+              <button type="button" class="hook-choice-card" data-framework="story" role="radio" aria-checked="false">
+                <span class="hook-choice-card-top"><span class="hook-choice-name">Story</span></span>
+                <span class="hook-choice-desc">A personal narrative with a turning point.</span>
+              </button>
+              <button type="button" class="hook-choice-card" data-framework="open-loop" role="radio" aria-checked="false">
+                <span class="hook-choice-card-top"><span class="hook-choice-name">Open Loop</span></span>
+                <span class="hook-choice-desc">Delays the payoff to hold attention.</span>
+              </button>
             </div>
           </div>
 
@@ -80,25 +81,15 @@
       </div>
 
       <section id="results" class="v4-results" hidden aria-live="polite">
-        <div class="v4-results-head">
-          <div>
-            <div class="v4-kicker">YOUR REEL BLUEPRINT</div>
-            <h2>Your reel blueprint</h2>
-          </div>
-          <span class="output-status"><span></span> READY</span>
-        </div>
-        <div class="metrics-panel v4-metrics">
-          <div class="metrics-heading"><h3>Creative signals</h3><span>AI estimates</span></div>
-          <div class="metrics-grid">
-            <div class="metric"><span class="metric-label">Virality Score</span><span class="metric-value" id="metric-virality">—</span><div class="metric-bar"><span id="metric-virality-bar"></span></div></div>
-            <div class="metric"><span class="metric-label">Retention Score</span><span class="metric-value" id="metric-retention">—</span><div class="metric-bar"><span id="metric-retention-bar"></span></div></div>
-            <div class="metric"><span class="metric-label">Predicted Watch Time</span><span class="metric-value" id="metric-watchtime">—</span><div class="metric-bar"><span id="metric-watchtime-bar"></span></div></div>
-            <div class="metric"><span class="metric-label">Emotion Trigger</span><span class="metric-value is-text" id="metric-emotion">—</span></div>
-            <div class="metric"><span class="metric-label">Framework Used</span><span class="metric-value is-text" id="metric-framework">—</span></div>
-            <div class="metric"><span class="metric-label">Confidence</span><span class="metric-value is-text" id="metric-confidence">—</span></div>
-          </div>
-        </div>
-
+        <div class="v4-results-head"><div><div class="v4-kicker">YOUR REEL BLUEPRINT</div><h2>Your reel blueprint</h2></div><span class="output-status"><span></span> READY</span></div>
+        <div class="metrics-panel v4-metrics"><div class="metrics-heading"><h3>Creative signals</h3><span>AI estimates</span></div><div class="metrics-grid">
+          <div class="metric"><span class="metric-label">Virality Score</span><span class="metric-value" id="metric-virality">—</span><div class="metric-bar"><span id="metric-virality-bar"></span></div></div>
+          <div class="metric"><span class="metric-label">Retention Score</span><span class="metric-value" id="metric-retention">—</span><div class="metric-bar"><span id="metric-retention-bar"></span></div></div>
+          <div class="metric"><span class="metric-label">Predicted Watch Time</span><span class="metric-value" id="metric-watchtime">—</span><div class="metric-bar"><span id="metric-watchtime-bar"></span></div></div>
+          <div class="metric"><span class="metric-label">Emotion Trigger</span><span class="metric-value is-text" id="metric-emotion">—</span></div>
+          <div class="metric"><span class="metric-label">Framework Used</span><span class="metric-value is-text" id="metric-framework">—</span></div>
+          <div class="metric"><span class="metric-label">Confidence</span><span class="metric-value is-text" id="metric-confidence">—</span></div>
+        </div></div>
         <div class="result-card"><div class="result-card-head"><h3>Title</h3><button class="copy-btn" data-target="result-title" type="button">Copy</button></div><div class="result-body" id="result-title"></div></div>
         <div class="result-card"><div class="result-card-head"><h3>Topic Refinement</h3><button class="copy-btn" data-target="result-topic" type="button">Copy</button></div><div class="result-body" id="result-topic"></div></div>
         <div class="result-card result-card-featured"><div class="result-card-head"><h3>Hook</h3><button class="copy-btn" data-target="result-hook" type="button">Copy</button></div><div class="result-body" id="result-hook"></div></div>
@@ -108,17 +99,9 @@
       </section>
     </div>
   </section>
-
   <section class="v4-footer-space" aria-hidden="true"></section>
 </main>
 <div id="footer-root"></div>
-<script src="config.js"></script>
-<script src="quota-ui.js"></script>
-<script src="partials.js"></script>
-<script src="auth.js"></script>
-<script src="account-ui.js"></script>
-<script src="cookie-consent.js"></script>
-<script src="script.js"></script>
-<script src="v4-single-page.js"></script>
+<script src="config.js"></script><script src="quota-ui.js"></script><script src="partials.js"></script><script src="auth.js"></script><script src="account-ui.js"></script><script src="cookie-consent.js"></script><script src="script.js"></script><script src="v4-single-page.js"></script>
 </body>
 </html>
