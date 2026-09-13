@@ -28,7 +28,7 @@
   const MAX_LENGTH = 500;
   const MIN_LENGTH = 10;
 
-  const frameworkList = document.getElementById('hook-choice-list');
+  const frameworkList = document.getElementById('hook-choice');
   const hookChoiceExpand = document.getElementById('hook-choice-expand');
   const hookChoiceSurprise = document.getElementById('hook-choice-surprise');
   const ideaInput = document.getElementById('idea-input');
@@ -45,11 +45,9 @@
   const LOADING_STAGES = ['Understanding your idea','Applying the selected framework','Writing the blueprint','Evaluating the result'];
   let selectedFramework = FRAMEWORKS[0].id;
   let loadingTimer = null;
-  let surpriseMode = false;
 
   function setSelectedFramework(id) {
     selectedFramework = id;
-    surpriseMode = false;
     frameworkList?.querySelectorAll('.hook-choice-card').forEach((card) => {
       const active = card.dataset.framework === id;
       card.classList.toggle('is-selected', active);
@@ -59,7 +57,6 @@
   }
 
   function setSurpriseMode() {
-    surpriseMode = true;
     selectedFramework = SURPRISE_ID;
     frameworkList?.querySelectorAll('.hook-choice-card').forEach((card) => {
       card.classList.remove('is-selected');
@@ -81,7 +78,7 @@
   hookChoiceSurprise?.addEventListener('click', setSurpriseMode);
   frameworkList?.addEventListener('click', (e) => {
     const card = e.target.closest('.hook-choice-card');
-    if (!card) return;
+    if (!card || !frameworkList.contains(card)) return;
     setSelectedFramework(card.dataset.framework);
   });
 
@@ -94,23 +91,15 @@
   ideaInput.addEventListener('input', updateCharCount);
   updateCharCount();
 
-  function normalizedWords(value) {
-    return value.toLowerCase().replace(/[^a-z0-9\s]/gi, ' ').split(/\s+/).filter(Boolean);
-  }
+  function normalizedWords(value) { return value.toLowerCase().replace(/[^a-z0-9\s]/gi, ' ').split(/\s+/).filter(Boolean); }
   function looksMeaningless(value) {
     const compact = value.replace(/\s+/g, '').toLowerCase();
     if (!compact) return true;
     if (/^(.)\1{2,}$/i.test(compact)) return true;
     if (/^(abc|abcd|abcde|abcdef|qwerty|asdf|asdfgh|zxcv|123|1234|12345|123456|qazwsx)+$/i.test(compact)) return true;
-    const letters = (compact.match(/[a-z]/gi) || []).length;
-    const digits = (compact.match(/\d/g) || []).length;
-    const symbols = (compact.match(/[^a-z0-9]/gi) || []).length;
-    if (letters === 0) return true;
-    if (digits > letters * 2 && letters < 4) return true;
-    if (symbols > Math.max(2, letters)) return true;
-    const words = normalizedWords(value);
-    if (words.length === 1 && words[0].length < 4) return true;
-    if (words.length === 1 && /^(?:asdf|qwer|qwerty|zxcv|poiuy|lkjh)$/i.test(words[0])) return true;
+    const letters = (compact.match(/[a-z]/gi) || []).length; const digits = (compact.match(/\d/g) || []).length; const symbols = (compact.match(/[^a-z0-9]/gi) || []).length;
+    if (letters === 0) return true; if (digits > letters * 2 && letters < 4) return true; if (symbols > Math.max(2, letters)) return true;
+    const words = normalizedWords(value); if (words.length === 1 && words[0].length < 4) return true; if (words.length === 1 && /^(?:asdf|qwer|qwerty|zxcv|poiuy|lkjh)$/i.test(words[0])) return true;
     return false;
   }
   function containsBadWord(value) { return BAD_WORDS.some((bad) => normalizedWords(value).includes(bad)); }
@@ -123,127 +112,59 @@
     if (looksMeaningless(idea)) return 'Please enter a real topic, niche or content idea — not random characters.';
     return '';
   }
-  function setInlineValidation(message) {
-    formHint.textContent = message || '';
-    formHint.classList.toggle('error', Boolean(message));
-    ideaInput.setAttribute('aria-invalid', message ? 'true' : 'false');
-  }
+  function setInlineValidation(message) { formHint.textContent = message || ''; formHint.classList.toggle('error', Boolean(message)); ideaInput.setAttribute('aria-invalid', message ? 'true' : 'false'); }
 
   form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    hideError();
-    setInlineValidation('');
-    const idea = ideaInput.value.trim();
-    const validationMessage = validateIdea(idea);
+    e.preventDefault(); hideError(); setInlineValidation('');
+    const idea = ideaInput.value.trim(); const validationMessage = validateIdea(idea);
     if (validationMessage) { setInlineValidation(validationMessage); ideaInput.focus(); return; }
     if (!HookosAPI.getAccessToken()) { document.dispatchEvent(new CustomEvent('hookos:auth-required')); return; }
-
-    resultsSection.hidden = true;
-    startLoadingUI();
+    resultsSection.hidden = true; startLoadingUI();
     try {
-      const response = await HookosAPI.generate({ idea, framework: selectedFramework });
-      const result = response?.data;
+      const response = await HookosAPI.generate({ idea, framework: selectedFramework }); const result = response?.data;
       if (!response?.success || !result) throw new Error(response?.message || 'The server returned an invalid response.');
-      renderLoadingComplete();
-      renderResults(result);
-      resultsSection.hidden = false;
-      stopLoadingUI();
-      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } catch (err) {
-      stopLoadingUI();
-      showError(err.message || 'Something went wrong generating your blueprint. Please try again.');
-    }
+      renderLoadingComplete(); renderResults(result); resultsSection.hidden = false; stopLoadingUI(); resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) { stopLoadingUI(); showError(err.message || 'Something went wrong generating your blueprint. Please try again.'); }
   });
 
   document.addEventListener('hookos:auth-required', () => {
     const message = document.getElementById('hookos-inline-auth');
     if (message && typeof window.HookosQuotaUI?.showAuthRequired === 'function') window.HookosQuotaUI.showAuthRequired();
   });
-
   function startLoadingUI() {
-    clearInterval(loadingTimer);
-    generateBtn.disabled = true;
-    generateBtnText.innerHTML = 'Generating<span class="loading-dots"><span></span><span></span><span></span></span>';
-    loadingPanel.classList.add('is-active');
-    loadingPanel.classList.remove('is-complete');
-    loadingBar.style.width = '42%';
-    let stageIndex = 0;
-    renderLoadingStage(stageIndex);
-    loadingTimer = window.setInterval(() => { stageIndex = (stageIndex + 1) % LOADING_STAGES.length; renderLoadingStage(stageIndex); }, 1100);
+    clearInterval(loadingTimer); generateBtn.disabled = true; generateBtnText.innerHTML = 'Generating<span class="loading-dots"><span></span><span></span><span></span></span>'; loadingPanel.classList.add('is-active'); loadingPanel.classList.remove('is-complete'); loadingBar.style.width = '42%';
+    let stageIndex = 0; renderLoadingStage(stageIndex); loadingTimer = window.setInterval(() => { stageIndex = (stageIndex + 1) % LOADING_STAGES.length; renderLoadingStage(stageIndex); }, 1100);
   }
-  function renderLoadingStage(index) {
-    loadingStatus.textContent = LOADING_STAGES[index];
-    loadingStepsEl.innerHTML = LOADING_STAGES.map((stage, i) => `<li class="loading-step ${i===index?'is-active':i<index?'is-done':''}" data-step="${i}"><span class="loading-step-dot" aria-hidden="true">${i<index?'✓':''}</span><span>${stage}</span></li>`).join('');
-  }
-  function renderLoadingComplete() {
-    clearInterval(loadingTimer); loadingTimer = null;
-    loadingPanel.classList.add('is-complete');
-    loadingStatus.textContent = 'Blueprint ready';
-    loadingBar.style.width = '100%';
-    loadingStepsEl.innerHTML = '<li class="loading-step is-done"><span class="loading-step-dot" aria-hidden="true">✓</span><span>Your blueprint is ready</span></li>';
-  }
-  function stopLoadingUI() {
-    clearInterval(loadingTimer); loadingTimer = null;
-    generateBtn.disabled = false;
-    generateBtnText.textContent = 'Generate Blueprint';
-    window.setTimeout(() => loadingPanel.classList.remove('is-active'), 500);
-  }
+  function renderLoadingStage(index) { loadingStatus.textContent = LOADING_STAGES[index]; loadingStepsEl.innerHTML = LOADING_STAGES.map((stage, i) => `<li class="loading-step ${i===index?'is-active':i<index?'is-done':''}" data-step="${i}"><span class="loading-step-dot" aria-hidden="true">${i<index?'✓':''}</span><span>${stage}</span></li>`).join(''); }
+  function renderLoadingComplete() { clearInterval(loadingTimer); loadingTimer = null; loadingPanel.classList.add('is-complete'); loadingStatus.textContent = 'Blueprint ready'; loadingBar.style.width = '100%'; loadingStepsEl.innerHTML = '<li class="loading-step is-done"><span class="loading-step-dot" aria-hidden="true">✓</span><span>Your blueprint is ready</span></li>'; }
+  function stopLoadingUI() { clearInterval(loadingTimer); loadingTimer = null; generateBtn.disabled = false; generateBtnText.textContent = 'Generate Blueprint'; window.setTimeout(() => loadingPanel.classList.remove('is-active'), 500); }
   function showError(message) { apiError.textContent = message; apiError.classList.add('is-active'); }
   function hideError() { apiError.textContent = ''; apiError.classList.remove('is-active'); }
   function renderResults(bp) {
     setText('result-title', bp.title); setText('result-topic', bp.topicRefinement); setText('result-hook', bp.hook); setText('result-script', bp.script); setText('result-cta', bp.cta);
-    const sceneEl = document.getElementById('result-scene');
-    sceneEl.innerHTML = '';
-    String(bp.scenePlan || '').split('\n').map(line => line.trim()).filter(Boolean).forEach((line, idx) => {
-      const row = document.createElement('div'); row.className = 'scene';
-      row.innerHTML = `<span class="scene-num">${idx+1}.</span><span>${escapeHtml(line.replace(/^\d+[.)]\s*/,''))}</span>`;
-      sceneEl.appendChild(row);
-    });
-    renderMetrics(bp.metrics || {});
-    document.querySelectorAll('.result-card').forEach((card, i) => { card.classList.remove('fade-slide-in'); void card.offsetWidth; card.style.animationDelay = `${i*.06}s`; card.classList.add('fade-slide-in'); });
+    const sceneEl = document.getElementById('result-scene'); sceneEl.innerHTML = '';
+    String(bp.scenePlan || '').split('\n').map(line => line.trim()).filter(Boolean).forEach((line, idx) => { const row = document.createElement('div'); row.className = 'scene'; row.innerHTML = `<span class="scene-num">${idx+1}.</span><span>${escapeHtml(line.replace(/^\d+[.)]\s*/,''))}</span>`; sceneEl.appendChild(row); });
+    renderMetrics(bp.metrics || {}); document.querySelectorAll('.result-card').forEach((card, i) => { card.classList.remove('fade-slide-in'); void card.offsetWidth; card.style.animationDelay = `${i*.06}s`; card.classList.add('fade-slide-in'); });
   }
-  function renderMetrics(metrics) {
-    setText('metric-virality', metrics.viralityScore != null ? `${metrics.viralityScore}` : '—');
-    setText('metric-retention', metrics.retentionScore != null ? `${metrics.retentionScore}` : '—');
-    setText('metric-watchtime', metrics.predictedWatchTime != null ? `${metrics.predictedWatchTime}` : '—');
-    setText('metric-emotion', metrics.emotionTrigger || '—'); setText('metric-framework', metrics.framework || '—'); setText('metric-confidence', metrics.confidence || '—');
-    setBar('metric-virality-bar', metrics.viralityScore); setBar('metric-retention-bar', metrics.retentionScore); setBar('metric-watchtime-bar', metrics.predictedWatchTime);
-  }
+  function renderMetrics(metrics) { setText('metric-virality', metrics.viralityScore != null ? `${metrics.viralityScore}` : '—'); setText('metric-retention', metrics.retentionScore != null ? `${metrics.retentionScore}` : '—'); setText('metric-watchtime', metrics.predictedWatchTime != null ? `${metrics.predictedWatchTime}` : '—'); setText('metric-emotion', metrics.emotionTrigger || '—'); setText('metric-framework', metrics.framework || '—'); setText('metric-confidence', metrics.confidence || '—'); setBar('metric-virality-bar', metrics.viralityScore); setBar('metric-retention-bar', metrics.retentionScore); setBar('metric-watchtime-bar', metrics.predictedWatchTime); }
   function setBar(id, value) { const el = document.getElementById(id); if (el) el.style.width = value != null ? `${Math.max(0, Math.min(100, value))}%` : '0%'; }
   function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value || ''; }
   function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
-
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.copy-btn');
-    if (!btn) return;
-    const targetEl = document.getElementById(btn.dataset.target);
-    if (!targetEl) return;
-    navigator.clipboard.writeText(targetEl.innerText).then(() => {
-      const original = btn.textContent; btn.textContent = '✓ Copied'; btn.classList.add('copied','success-pop');
-      window.setTimeout(() => { btn.textContent = original; btn.classList.remove('copied','success-pop'); }, 2000);
-    }).catch(() => { btn.textContent = 'Copy failed'; window.setTimeout(() => { btn.textContent = 'Copy'; }, 2000); });
-  });
+  document.addEventListener('click', (e) => { const btn = e.target.closest('.copy-btn'); if (!btn) return; const targetEl = document.getElementById(btn.dataset.target); if (!targetEl) return; navigator.clipboard.writeText(targetEl.innerText).then(() => { const original = btn.textContent; btn.textContent = '✓ Copied'; btn.classList.add('copied','success-pop'); window.setTimeout(() => { btn.textContent = original; btn.classList.remove('copied','success-pop'); }, 2000); }).catch(() => { btn.textContent = 'Copy failed'; window.setTimeout(() => { btn.textContent = 'Copy'; }, 2000); }); });
 })();
 
 (function initEarlyAccess(){
-  const form = document.getElementById('early-access-form');
-  if (!form) return;
-  const emailInput = document.getElementById('ea-email'); const feedbackInput = document.getElementById('ea-feedback'); const hint = document.getElementById('ea-hint'); const submitBtn = document.getElementById('ea-submit-btn'); const submitText = document.getElementById('ea-submit-text');
-  let timeoutId = null;
+  const form = document.getElementById('early-access-form'); if (!form) return;
+  const emailInput = document.getElementById('ea-email'); const feedbackInput = document.getElementById('ea-feedback'); const hint = document.getElementById('ea-hint'); const submitBtn = document.getElementById('ea-submit-btn'); const submitText = document.getElementById('ea-submit-text'); let timeoutId = null;
   form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = emailInput.value.trim(); hint.classList.remove('error');
+    e.preventDefault(); const email = emailInput.value.trim(); hint.classList.remove('error');
     if (!email) { hint.textContent='Enter your email to join the list.'; hint.classList.add('error'); emailInput.focus(); return; }
-    submitBtn.disabled=true; submitText.textContent='Joining...'; hint.textContent=''; clearTimeout(timeoutId);
-    const controller = new AbortController(); timeoutId = window.setTimeout(() => controller.abort(), 10000);
+    submitBtn.disabled=true; submitText.textContent='Joining...'; hint.textContent=''; clearTimeout(timeoutId); const controller = new AbortController(); timeoutId = window.setTimeout(() => controller.abort(), 10000);
     try {
-      const response = await fetch(`${HOOKOS_CONFIG.API_BASE_URL}/early-access`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,feedback:feedbackInput.value.trim()}), signal:controller.signal });
-      let body=null; try { body=await response.json(); } catch (_) {}
+      const response = await fetch(`${HOOKOS_CONFIG.API_BASE_URL}/early-access`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,feedback:feedbackInput.value.trim()}), signal:controller.signal }); let body=null; try { body=await response.json(); } catch (_) {}
       if(!response.ok || !body?.success) throw new Error(body?.message || `Request failed (${response.status})`);
-      submitText.textContent="✓ You're on the list"; form.reset(); hint.textContent='We’ll use your email for early-access updates. Your feedback has been saved.';
-      window.setTimeout(()=>{submitText.textContent='Join Early Access';submitBtn.disabled=false;},2500);
-    } catch(err) {
-      submitBtn.disabled=false; submitText.textContent='Join Early Access'; hint.textContent=err.name==='AbortError'?'The request took too long. Please try again.':(err.message||'Something went wrong. Please try again.'); hint.classList.add('error');
-    } finally { clearTimeout(timeoutId); }
+      submitText.textContent="✓ You're on the list"; form.reset(); hint.textContent='We’ll use your email for early-access updates. Your feedback has been saved.'; window.setTimeout(()=>{submitText.textContent='Join Early Access';submitBtn.disabled=false;},2500);
+    } catch(err) { submitBtn.disabled=false; submitText.textContent='Join Early Access'; hint.textContent=err.name==='AbortError'?'The request took too long. Please try again.':(err.message||'Something went wrong. Please try again.'); hint.classList.add('error'); }
+    finally { clearTimeout(timeoutId); }
   });
 })();
