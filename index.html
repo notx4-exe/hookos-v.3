@@ -44,10 +44,24 @@
           <div id="hookos-inline-auth" class="hookos-inline-auth" hidden aria-live="polite"><div class="hookos-inline-auth-copy"><div class="hookos-inline-auth-title">Sign in to keep your blueprint.</div><div class="hookos-inline-auth-text">Your generation is saved to your account history.</div></div><button type="button" data-action="google-login">Sign in with Google</button></div>
 
           <div class="v4-framework-row">
-            <div class="v4-field-label" id="framework-label">Hook style</div>
+            <div class="v4-field-label" id="framework-label">Hook</div>
             <span class="recommended-note">Recommended</span>
           </div>
-          <div class="framework-grid v4-framework-grid" role="radiogroup" aria-labelledby="framework-label" id="framework-grid"></div>
+          <div class="v4-hook-choice" id="hook-choice">
+            <button type="button" class="hook-choice-main is-selected" id="hook-choice-trigger" aria-expanded="false" aria-controls="hook-choice-options">
+              <span class="hook-choice-radio" aria-hidden="true">✓</span>
+              <span class="hook-choice-copy"><span class="hook-choice-name">Curiosity Gap</span><span class="hook-choice-desc">Opens a gap the viewer wants to close.</span></span>
+            </button>
+            <div class="hook-choice-actions">
+              <button type="button" class="hook-choice-expand" id="hook-choice-expand" aria-expanded="false" aria-controls="hook-choice-options">Explore more</button>
+              <button type="button" class="hook-choice-surprise" id="hook-choice-surprise">✨ Surprise me</button>
+            </div>
+            <div class="hook-choice-options" id="hook-choice-options" hidden role="radiogroup" aria-labelledby="framework-label">
+              <button type="button" class="hook-choice-option is-selected" data-framework="curiosity-gap" role="radio" aria-checked="true"><span class="hook-choice-radio" aria-hidden="true">✓</span><span class="hook-choice-name">Curiosity Gap</span></button>
+              <button type="button" class="hook-choice-option" data-framework="story" role="radio" aria-checked="false"><span class="hook-choice-radio" aria-hidden="true"></span><span class="hook-choice-name">Story</span></button>
+              <button type="button" class="hook-choice-option" data-framework="open-loop" role="radio" aria-checked="false"><span class="hook-choice-radio" aria-hidden="true"></span><span class="hook-choice-name">Open Loop</span></button>
+            </div>
+          </div>
 
           <button type="submit" class="btn btn-primary btn-lg btn-block v4-generate-button" id="generate-btn">
             <span id="generate-btn-text">Generate Reel</span>
