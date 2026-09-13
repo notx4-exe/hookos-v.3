@@ -19,21 +19,21 @@
   if (!form) return;
 
   const FRAMEWORKS = [
-    { id:'curiosity-gap', name:'Curiosity Gap', desc:'Opens a gap the viewer needs closed.' },
-    { id:'fear', name:'Fear', desc:'Leads with a risk the viewer wants to avoid.' },
-    { id:'contrarian', name:'Contrarian', desc:'Challenges a widely held belief.' },
+    { id:'curiosity-gap', name:'Curiosity Gap', desc:'Opens a gap the viewer wants to close.' },
     { id:'story', name:'Story', desc:'A personal narrative with a turning point.' },
-    { id:'statistics', name:'Statistics', desc:'Leads with a surprising number.' },
-    { id:'authority', name:'Authority', desc:'Leans on expertise and credibility.' },
-    { id:'emotion', name:'Emotion', desc:'Leads with feeling over logic.' },
     { id:'open-loop', name:'Open Loop', desc:'Delays the payoff to hold attention.' },
   ];
+  const SURPRISE_ID = 'surprise-me';
 
   const BAD_WORDS = ['fuck','fucking','shit','bitch','bastard','asshole','dick','piss','cunt','slut','whore'];
   const MAX_LENGTH = 500;
   const MIN_LENGTH = 10;
 
-  const frameworkGrid = document.getElementById('framework-grid');
+  const frameworkGrid = document.getElementById('hook-choice-options');
+  const hookChoiceTrigger = document.getElementById('hook-choice-trigger');
+  const hookChoiceExpand = document.getElementById('hook-choice-expand');
+  const hookChoiceOptions = document.getElementById('hook-choice-options');
+  const hookChoiceSurprise = document.getElementById('hook-choice-surprise');
   const ideaInput = document.getElementById('idea-input');
   const formHint = document.getElementById('form-hint');
   const apiError = document.getElementById('api-error');
@@ -48,25 +48,61 @@
   const LOADING_STAGES = ['Understanding your idea','Applying the selected framework','Writing the blueprint','Evaluating the result'];
   let selectedFramework = FRAMEWORKS[0].id;
   let loadingTimer = null;
+  let surpriseMode = false;
 
-  frameworkGrid.innerHTML = FRAMEWORKS.map((fw, i) => `<button type="button" class="framework-chip${i===0?' selected':''}" data-framework="${fw.id}" role="radio" aria-checked="${i===0}"><span class="check" aria-hidden="true">✓</span><span class="fw-name">${fw.name}</span><span class="fw-desc">${fw.desc}</span></button>`).join('');
-  frameworkGrid.addEventListener('click', (e) => {
-    const chip = e.target.closest('.framework-chip');
-    if (!chip) return;
-    frameworkGrid.querySelectorAll('.framework-chip').forEach((c) => { c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
-    chip.classList.add('selected');
-    chip.setAttribute('aria-checked','true');
-    selectedFramework = chip.dataset.framework;
-  });
-  frameworkGrid.addEventListener('keydown', (e) => {
-    if (!['ArrowRight','ArrowLeft','ArrowDown','ArrowUp'].includes(e.key)) return;
-    const chips = Array.from(frameworkGrid.querySelectorAll('.framework-chip'));
-    const currentIndex = chips.findIndex((c) => c.classList.contains('selected'));
-    const dir = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1;
-    const nextIndex = (currentIndex + dir + chips.length) % chips.length;
-    e.preventDefault();
-    chips[nextIndex].focus();
-    chips[nextIndex].click();
+  function setSelectedFramework(id) {
+    selectedFramework = id;
+    surpriseMode = false;
+    const framework = FRAMEWORKS.find((fw) => fw.id === id) || FRAMEWORKS[0];
+    if (hookChoiceTrigger) {
+      hookChoiceTrigger.classList.add('is-selected');
+      hookChoiceTrigger.querySelector('.hook-choice-name').textContent = framework.name;
+      hookChoiceTrigger.querySelector('.hook-choice-desc').textContent = framework.desc;
+      hookChoiceTrigger.querySelector('.hook-choice-radio').textContent = '✓';
+    }
+    frameworkGrid?.querySelectorAll('.hook-choice-option').forEach((option) => {
+      const active = option.dataset.framework === id;
+      option.classList.toggle('is-selected', active);
+      option.setAttribute('aria-checked', String(active));
+      const radio = option.querySelector('.hook-choice-radio');
+      if (radio) radio.textContent = active ? '✓' : '';
+    });
+    hookChoiceSurprise?.classList.remove('is-selected');
+  }
+
+  function setSurpriseMode() {
+    surpriseMode = true;
+    selectedFramework = SURPRISE_ID;
+    hookChoiceTrigger?.classList.remove('is-selected');
+    if (hookChoiceTrigger) {
+      hookChoiceTrigger.querySelector('.hook-choice-name').textContent = 'Surprise me';
+      hookChoiceTrigger.querySelector('.hook-choice-desc').textContent = 'HookOS will choose the best approach for your idea.';
+      hookChoiceTrigger.querySelector('.hook-choice-radio').textContent = '✦';
+    }
+    frameworkGrid?.querySelectorAll('.hook-choice-option').forEach((option) => {
+      option.classList.remove('is-selected');
+      option.setAttribute('aria-checked', 'false');
+      const radio = option.querySelector('.hook-choice-radio');
+      if (radio) radio.textContent = '';
+    });
+    hookChoiceSurprise?.classList.add('is-selected');
+  }
+
+  function toggleHookOptions() {
+    if (!hookChoiceOptions) return;
+    const open = hookChoiceOptions.hidden;
+    hookChoiceOptions.hidden = !open;
+    hookChoiceExpand?.setAttribute('aria-expanded', String(open));
+    hookChoiceTrigger?.setAttribute('aria-expanded', String(open));
+  }
+
+  hookChoiceTrigger?.addEventListener('click', toggleHookOptions);
+  hookChoiceExpand?.addEventListener('click', toggleHookOptions);
+  hookChoiceSurprise?.addEventListener('click', setSurpriseMode);
+  frameworkGrid?.addEventListener('click', (e) => {
+    const option = e.target.closest('.hook-choice-option');
+    if (!option) return;
+    setSelectedFramework(option.dataset.framework);
   });
 
   function updateCharCount() {
@@ -125,7 +161,6 @@
     setInlineValidation('');
     const idea = ideaInput.value.trim();
 
-    // Invalid input must never show loading or call the API.
     const validationMessage = validateIdea(idea);
     if (validationMessage) {
       setInlineValidation(validationMessage);
@@ -133,7 +168,6 @@
       return;
     }
 
-    // Auth is checked before any loading UI starts.
     if (!HookosAPI.getAccessToken()) {
       document.dispatchEvent(new CustomEvent('hookos:auth-required'));
       return;
