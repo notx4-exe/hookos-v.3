@@ -17,212 +17,102 @@ function installThreeColorSystem() {
   const style = document.createElement('style');
   style.id = 'hookos-three-color-system';
   style.textContent = `
-    /* HookOS strict three-color system
-       Pebble      #EEEEEE  — page/card surfaces
-       High Tide   #313841  — ink, icons, borders, neutral controls
-       Palesun     #FBFC09  — the only accent
-    */
+    /* HookOS strict three-color system: Pebble #EEEEEE, High Tide #313841, Palesun #FBFC09. */
     :root {
-      --bg:#EEEEEE !important;
-      --surface:#EEEEEE !important;
-      --text-primary:#313841 !important;
-      --text-secondary:rgba(49,56,65,.72) !important;
-      --accent:#FBFC09 !important;
-      --accent-contrast:#313841 !important;
-      --border:rgba(49,56,65,.18) !important;
-      --success:#FBFC09 !important;
-      --danger:#313841 !important;
-      --hookos-green:#FBFC09 !important;
-      --hookos-green-dark:#313841 !important;
-      --hookos-green-soft:#EEEEEE !important;
-      --hookos-green-wash:#EEEEEE !important;
-      --hookos-bg:#EEEEEE !important;
-      --hookos-surface:#EEEEEE !important;
-      --hookos-text:#313841 !important;
-      --hookos-muted:rgba(49,56,65,.72) !important;
-      --hookos-border:rgba(49,56,65,.18) !important;
-      --hookos-danger:#313841 !important;
-      --hookos-v4-bg:#EEEEEE !important;
-      --hookos-v4-text:#313841 !important;
-      --hookos-v4-yellow:#FBFC09 !important;
-      --hookos-v4-border:rgba(49,56,65,.18) !important;
+      --bg:#EEEEEE !important; --surface:#EEEEEE !important;
+      --text-primary:#313841 !important; --text-secondary:rgba(49,56,65,.72) !important;
+      --accent:#FBFC09 !important; --accent-contrast:#313841 !important;
+      --border:rgba(49,56,65,.18) !important; --success:#FBFC09 !important; --danger:#313841 !important;
+      --hookos-green:#FBFC09 !important; --hookos-green-dark:#313841 !important;
+      --hookos-green-soft:#EEEEEE !important; --hookos-green-wash:#EEEEEE !important;
+      --hookos-bg:#EEEEEE !important; --hookos-surface:#EEEEEE !important;
+      --hookos-text:#313841 !important; --hookos-muted:rgba(49,56,65,.72) !important;
+      --hookos-border:rgba(49,56,65,.18) !important; --hookos-danger:#313841 !important;
+      --hookos-v4-bg:#EEEEEE !important; --hookos-v4-text:#313841 !important;
+      --hookos-v4-yellow:#FBFC09 !important; --hookos-v4-border:rgba(49,56,65,.18) !important;
       --hookos-v4-surface:#EEEEEE !important;
     }
+    html,body,main,section,.section-alt,.hookos-v4-page,.dashboard-shell,.legal-page { background:#EEEEEE !important; color:#313841 !important; }
+    h1,h2,h3,h4,h5,h6,p,span,li,label,small,strong,em,a,button,input,textarea,select,option { color:#313841; }
 
-    html, body, main, section, .section-alt,
-    .hookos-v4-page, .dashboard-shell, .legal-page {
-      background:#EEEEEE !important;
-      color:#313841 !important;
-    }
+    /* Cards use the page surface too. Borders create separation. */
+    .card,.mockup,.mockup-window,.mockup-body,.generator-card,.dashboard-card,.history-card,.history-item,
+    .result-card,.output-card,.metrics-panel,.early-access-shell,.support-card,.tutorial-step,.tutorial-preview,
+    .v4-generator-card,.v4-results .result-card,.v4-results .metrics-panel,.v4-loading-panel,.referral-card,
+    .example-input,.profile-dropdown,.hookos-modal,.cookie-banner,.framework-chip,.v4-framework-grid .framework-chip,
+    #idea-input,.v4-generator-card #idea-input { background:#EEEEEE !important; color:#313841 !important; border-color:rgba(49,56,65,.18) !important; }
 
-    h1,h2,h3,h4,h5,h6,p,span,li,label,small,strong,em,
-    a,button,input,textarea,select,option,svg { color:#313841; }
-
-    /* Cards never use a white-vs-gray fill trick. Border creates separation. */
-    .card,.mockup,.mockup-window,.mockup-body,.generator-card,
-    .dashboard-card,.history-card,.history-item,.result-card,.output-card,
-    .metrics-panel,.early-access-shell,.support-card,.tutorial-step,
-    .tutorial-preview,.v4-generator-card,.v4-results .result-card,
-    .v4-results .metrics-panel,.v4-loading-panel,.referral-card,
-    .example-input,.profile-dropdown,.hookos-modal,.cookie-banner,
-    .framework-chip,.v4-framework-grid .framework-chip,
-    #idea-input,.v4-generator-card #idea-input {
-      background:#EEEEEE !important;
-      color:#313841 !important;
-      border-color:rgba(49,56,65,.18) !important;
-    }
-
-    .navbar {
-      background:rgba(238,238,238,.92) !important;
-      border-color:rgba(49,56,65,.18) !important;
-    }
-    .nav-links a,.nav-right .nav-links-core a,.mobile-nav-link,
-    .nav-links a:hover,.nav-links a:focus-visible { color:#313841 !important; }
-    .nav-toggle {
-      background:#313841 !important;
-      border-color:#313841 !important;
-    }
+    .navbar { background:rgba(238,238,238,.92) !important; border-color:rgba(49,56,65,.18) !important; }
+    .nav-links a,.nav-right .nav-links-core a,.mobile-nav-link { color:#313841 !important; }
+    .nav-toggle { background:#313841 !important; border-color:#313841 !important; }
     .nav-toggle-bars span { background:#EEEEEE !important; }
-    .mobile-nav-close {
-      background:#313841 !important;
-      border-color:#313841 !important;
-      color:#EEEEEE !important;
-    }
+    .mobile-nav-close { background:#313841 !important; border-color:#313841 !important; color:#EEEEEE !important; }
     .nav-backdrop { background:rgba(49,56,65,.28) !important; }
 
-    /* Primary action: yellow with dark ink, never white. */
-    .btn-primary,.dashboard-create .btn,.v4-generate-button,
-    .v4-generator-card .btn-primary,.referral-copy-btn,
-    .footer-referral-link,.cookie-banner-actions .btn-primary {
-      background:#FBFC09 !important;
-      color:#313841 !important;
-      border-color:#FBFC09 !important;
-      box-shadow:none !important;
+    /* Primary CTA = Palesun Yellow + High Tide text. */
+    .btn-primary,.dashboard-create .btn,.v4-generate-button,.v4-generator-card .btn-primary,
+    .referral-copy-btn,.footer-referral-link,.cookie-banner-actions .btn-primary {
+      background:#FBFC09 !important; color:#313841 !important; border-color:#FBFC09 !important; box-shadow:none !important;
     }
-    .btn-primary:hover:not(:disabled),.v4-generate-button:hover:not(:disabled),
-    .referral-copy-btn:hover,.footer-referral-link:hover,
-    .cookie-banner-actions .btn-primary:hover {
-      background:#FBFC09 !important;
-      color:#313841 !important;
-      border-color:#FBFC09 !important;
+    .btn-primary:hover:not(:disabled),.v4-generate-button:hover:not(:disabled),.referral-copy-btn:hover,
+    .footer-referral-link:hover,.cookie-banner-actions .btn-primary:hover { background:#FBFC09 !important; color:#313841 !important; border-color:#FBFC09 !important; }
+
+    /* Neutral controls = High Tide outline/ink. */
+    .btn-secondary,.btn-google,.mini-btn,.danger-button,.cookie-banner-actions .btn-secondary,.hookos-modal-actions button {
+      background:transparent !important; color:#313841 !important; border-color:#313841 !important; box-shadow:none !important;
+    }
+    .btn-secondary:hover,.btn-google:hover,.mini-btn:hover,.cookie-banner-actions .btn-secondary:hover {
+      background:rgba(49,56,65,.06) !important; color:#313841 !important; border-color:#313841 !important;
+    }
+    .danger-button,.hookos-modal-delete,.mobile-nav-logout,[data-action="delete-account"],.danger {
+      color:#313841 !important; background:transparent !important; border-color:#313841 !important;
+    }
+    .danger-button:hover,.hookos-modal-delete:hover,[data-action="delete-account"]:hover,.danger:hover {
+      color:#313841 !important; background:rgba(49,56,65,.06) !important; border-color:#313841 !important;
     }
 
-    /* Neutral controls: High Tide ink + outline, transparent/Pebble fill. */
-    .btn-secondary,.btn-google,.mini-btn,.danger-button,
-    .cookie-banner-actions .btn-secondary,
-    .hookos-modal-actions button {
-      background:transparent !important;
-      color:#313841 !important;
-      border-color:#313841 !important;
-      box-shadow:none !important;
+    /* Selected/focus states use the only accent. */
+    .framework-chip.selected,.v4-framework-grid .framework-chip.selected,.tutorial-preview .preview-chip.is-selected,
+    .nav-right .nav-links a.is-active { background:#FBFC09 !important; border-color:#313841 !important; color:#313841 !important; box-shadow:none !important; }
+    .framework-chip.selected .check,.v4-framework-grid .framework-chip.selected .check {
+      background:#FBFC09 !important; border-color:#313841 !important; color:#313841 !important;
     }
-    .btn-secondary:hover,.btn-google:hover,.mini-btn:hover,
-    .cookie-banner-actions .btn-secondary:hover {
-      background:rgba(49,56,65,.06) !important;
-      color:#313841 !important;
-      border-color:#313841 !important;
-    }
+    :focus-visible { outline:3px solid #FBFC09 !important; outline-offset:3px !important; }
 
-    /* Delete uses the same ink. Confirmation, not red, carries the danger signal. */
-    .danger-button,.hookos-modal-delete,.mobile-nav-logout,
-    [data-action="delete-account"],.danger {
-      color:#313841 !important;
-      background:transparent !important;
-      border-color:#313841 !important;
-    }
-    .danger-button:hover,.hookos-modal-delete:hover,
-    [data-action="delete-account"]:hover,.danger:hover {
-      color:#313841 !important;
-      background:rgba(49,56,65,.06) !important;
-      border-color:#313841 !important;
-    }
+    /* Progress urgency comes from length, not color. */
+    .usage-bar,.metric-bar,.progress-bar { background:rgba(49,56,65,.18) !important; border-color:#313841 !important; }
+    .usage-bar span,.metric-bar span,.progress-bar span,#loading-bar { background:#FBFC09 !important; }
 
-    /* Selected/focus states use the single accent. */
-    .framework-chip.selected,
-    .v4-framework-grid .framework-chip.selected,
-    .tutorial-preview .preview-chip.is-selected,
-    .nav-right .nav-links a.is-active {
-      background:#FBFC09 !important;
-      border-color:#313841 !important;
-      color:#313841 !important;
-      box-shadow:none !important;
-    }
-    .framework-chip.selected .check,
-    .v4-framework-grid .framework-chip.selected .check {
-      background:#FBFC09 !important;
-      border-color:#313841 !important;
-      color:#313841 !important;
-    }
-    :focus-visible {
-      outline:3px solid #FBFC09 !important;
-      outline-offset:3px !important;
-    }
-
-    /* Progress communicates urgency through length, not hue. */
-    .usage-bar,.usage-bar span,.metric-bar,.metric-bar span,
-    .progress-bar,.progress-bar span,#loading-bar {
-      border-color:#313841 !important;
-    }
-    .usage-bar,.metric-bar,.progress-bar {
-      background:rgba(49,56,65,.18) !important;
-    }
-    .usage-bar span,.metric-bar span,.progress-bar span,#loading-bar {
-      background:#FBFC09 !important;
-    }
-
-    /* Remove legacy red/green status colors. */
-    .generation-quota.is-limit,.generation-quota.is-ready,#char-count,
-    .hookos-modal-warning,.output-status,.recommended-note,
-    .referral-dot,.referral-invite,.support-email {
-      color:#313841 !important;
-      border-color:rgba(49,56,65,.18) !important;
-    }
+    /* Legacy status colors become High Tide. */
+    .generation-quota.is-limit,.generation-quota.is-ready,#char-count,.hookos-modal-warning,.output-status,
+    .recommended-note,.referral-dot,.referral-invite,.support-email { color:#313841 !important; border-color:rgba(49,56,65,.18) !important; }
     .recommended-note,.referral-invite { background:#EEEEEE !important; }
     .referral-dot { background:#FBFC09 !important; box-shadow:none !important; }
 
-    /* Referral/footer: same system, no legacy dark/green palette. */
+    /* Referral/footer. */
     .referral-card,.footer-referral-strip { background:#EEEEEE !important; }
     .referral-card::after { display:none !important; }
-    .referral-copy,.referral-meta,.footer-tag,.footer-community-copy p,
-    .footer-legal-links a,.footer-bottom,.footer-kicker { color:rgba(49,56,65,.72) !important; }
+    .referral-copy,.referral-meta,.footer-tag,.footer-community-copy p,.footer-legal-links a,.footer-bottom,.footer-kicker { color:rgba(49,56,65,.72) !important; }
     .referral-eyebrow,.referral-card h2,.referral-meta strong { color:#313841 !important; }
-    .referral-copy-btn,.footer-referral-link { color:#313841 !important; }
-    .hookos-footer {
-      background:#EEEEEE !important;
-      color:#313841 !important;
-      border-top:1px solid rgba(49,56,65,.18) !important;
-    }
-    .hookos-footer .footer-wordmark,.hookos-footer .footer-column h3,
-    .hookos-footer .footer-referral-strip p { color:#313841 !important; }
+    .hookos-footer { background:#EEEEEE !important; color:#313841 !important; border-top:1px solid rgba(49,56,65,.18) !important; }
+    .hookos-footer .footer-wordmark,.hookos-footer .footer-column h3,.hookos-footer .footer-referral-strip p { color:#313841 !important; }
     .hookos-footer .footer-top { border-bottom-color:rgba(49,56,65,.18) !important; }
-    .hookos-footer .social-link {
-      color:#313841 !important;
-      border-color:#313841 !important;
-      background:transparent !important;
-    }
-    .hookos-footer .social-link:hover {
-      background:#FBFC09 !important;
-      border-color:#313841 !important;
-      color:#313841 !important;
-    }
+    .hookos-footer .social-link { color:#313841 !important; border-color:#313841 !important; background:transparent !important; }
+    .hookos-footer .social-link:hover { background:#FBFC09 !important; border-color:#313841 !important; color:#313841 !important; }
 
-    /* Cookie notice stays a floating Pebble card. */
-    .cookie-banner {
-      background:#EEEEEE !important;
-      color:#313841 !important;
-      border-color:#313841 !important;
-    }
+    /* Cookie notice. */
+    .cookie-banner { background:#EEEEEE !important; color:#313841 !important; border-color:#313841 !important; }
     .cookie-banner p,.cookie-banner p a { color:#313841 !important; }
 
-    /* V4 hard-coded neutrals are normalized too. */
+    /* V4 hard-coded neutrals. */
     .v4-kicker,.v4-hero p,.v4-field-label { color:rgba(49,56,65,.72) !important; }
     .v4-generator-card #idea-input:focus { border-color:#313841 !important; box-shadow:0 0 0 3px rgba(251,252,9,.35) !important; }
     .v4-results .result-card-featured { background:#FBFC09 !important; border-color:#313841 !important; }
     .v4-results .result-card-cta .result-body { background:#FBFC09 !important; color:#313841 !important; }
 
     @media(max-width:860px){
-      .nav-right { background:#EEEEEE !important; border-left-color:#313841 !important; }
-      .nav-right .nav-links-core a.is-active { background:#FBFC09 !important; color:#313841 !important; }
+      html body .nav-right { background:#EEEEEE !important; border-left-color:#313841 !important; }
+      html body .nav-right .nav-links-core a.is-active { background:#FBFC09 !important; color:#313841 !important; }
     }
   `;
   document.head.appendChild(style);
@@ -249,17 +139,11 @@ function renderNavbar() {
           </ul>
           <div class="mobile-account-links" aria-label="Account">
             <div data-auth-state="signed-out"><a class="mobile-nav-link" href="index.html" data-action="google-login"><span>Sign In</span><span aria-hidden="true">→</span></a></div>
-            <div data-auth-state="signed-in">
-              <a class="mobile-nav-link" href="dashboard.html#history"><span>History</span><span aria-hidden="true">→</span></a>
-              <button type="button" class="mobile-nav-link mobile-nav-logout" data-action="logout"><span>Logout</span><span aria-hidden="true">→</span></button>
-            </div>
+            <div data-auth-state="signed-in"><a class="mobile-nav-link" href="dashboard.html#history"><span>History</span><span aria-hidden="true">→</span></a><button type="button" class="mobile-nav-link mobile-nav-logout" data-action="logout"><span>Logout</span><span aria-hidden="true">→</span></button></div>
           </div>
           <div class="auth-area">
             <div data-auth-state="signed-out" class="is-active"><button type="button" class="btn btn-google" data-action="google-login"><span>Sign In</span></button></div>
-            <div data-auth-state="signed-in" class="profile-menu" id="profile-menu">
-              <button type="button" class="profile-trigger" id="profile-trigger" aria-haspopup="true" aria-expanded="false"><span class="avatar" data-user-initial aria-hidden="true">?</span><img class="avatar avatar-img" data-user-avatar alt="" hidden><span data-user-name>Account</span></button>
-              <div class="profile-dropdown" role="menu"><button type="button" role="menuitem" data-action="logout">Log Out</button></div>
-            </div>
+            <div data-auth-state="signed-in" class="profile-menu" id="profile-menu"><button type="button" class="profile-trigger" id="profile-trigger" aria-haspopup="true" aria-expanded="false"><span class="avatar" data-user-initial aria-hidden="true">?</span><img class="avatar avatar-img" data-user-avatar alt="" hidden><span data-user-name>Account</span></button><div class="profile-dropdown" role="menu"><button type="button" role="menuitem" data-action="logout">Log Out</button></div></div>
           </div>
           <a href="index.html#generator" class="btn btn-primary">Generate My Reel →</a>
         </nav>
@@ -276,22 +160,21 @@ function installMobileNavStyles() {
   style.textContent = `
     @media (max-width: 860px) {
       body.nav-open{overflow:hidden}
-      .nav-backdrop{position:fixed;inset:0;z-index:109;background:rgba(17,19,18,.34);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+      .nav-backdrop{position:fixed;inset:0;z-index:109;background:rgba(49,56,65,.28);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
       .nav-open .nav-backdrop{opacity:1;visibility:visible;pointer-events:auto}
-      .nav-right{z-index:110;position:fixed;inset:0 0 0 auto;width:min(360px,88vw);height:100dvh;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;background:#fff;border-left:1px solid #E5E7EB;border-radius:24px 0 0 24px;box-shadow:-18px 0 56px rgba(0,0,0,.14);transform:translateX(104%);visibility:hidden;pointer-events:none;overflow-y:auto;overscroll-behavior:contain;transition:transform .28s cubic-bezier(.16,1,.3,1),visibility .28s ease}
+      .nav-right{z-index:110;position:fixed;inset:0 0 0 auto;width:min(360px,88vw);height:100dvh;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;background:#EEEEEE;border-left:1px solid #313841;border-radius:24px 0 0 24px;box-shadow:-18px 0 56px rgba(49,56,65,.14);transform:translateX(104%);visibility:hidden;pointer-events:none;overflow-y:auto;overscroll-behavior:contain;transition:transform .28s cubic-bezier(.16,1,.3,1),visibility .28s ease}
       .nav-open .nav-right{transform:translateX(0);visibility:visible;pointer-events:auto}
-      .mobile-nav-header{display:flex;align-items:center;justify-content:space-between;min-height:72px;padding:0 18px 0 22px;border-bottom:1px solid #E5E7EB;flex-shrink:0}
+      .mobile-nav-header{display:flex;align-items:center;justify-content:space-between;min-height:72px;padding:0 18px 0 22px;border-bottom:1px solid rgba(49,56,65,.18);flex-shrink:0}
       .mobile-nav-title{font-size:20px;font-weight:800;letter-spacing:-.04em}
-      .mobile-nav-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #E5E7EB;border-radius:50%;font-size:28px;font-weight:300;line-height:1;color:#111;background:#fff}
+      .mobile-nav-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #313841;border-radius:50%;font-size:28px;font-weight:300;line-height:1;color:#EEEEEE;background:#313841}
       .nav-right .nav-links-core{display:flex;flex-direction:column;gap:4px;padding:14px 12px 8px}
-      .nav-right .nav-links-core a{display:flex;align-items:center;min-height:50px;padding:0 14px;border-radius:12px;font-size:16px;font-weight:600;color:#111}
-      .nav-right .nav-links-core a.is-active{background:#F0FDF4;color:#15803D}
+      .nav-right .nav-links-core a{display:flex;align-items:center;min-height:50px;padding:0 14px;border-radius:12px;font-size:16px;font-weight:600;color:#313841}
+      .nav-right .nav-links-core a.is-active{background:#FBFC09;color:#313841}
       .mobile-account-links{display:flex;flex-direction:column;gap:4px;padding:4px 12px 0}
-      .mobile-account-links>div{display:none}
-      .mobile-account-links>div.is-active{display:block}
-      .mobile-nav-link{width:100%;min-height:50px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border:0;border-radius:12px;background:transparent;color:#111;font:inherit;font-size:16px;font-weight:650;text-align:left;text-decoration:none;cursor:pointer}
-      .mobile-nav-link:hover{background:#F7F7F7}
-      .mobile-nav-logout{color:#B91C1C}
+      .mobile-account-links>div{display:none}.mobile-account-links>div.is-active{display:block}
+      .mobile-nav-link{width:100%;min-height:50px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border:0;border-radius:12px;background:transparent;color:#313841;font:inherit;font-size:16px;font-weight:650;text-align:left;text-decoration:none;cursor:pointer}
+      .mobile-nav-link:hover{background:rgba(49,56,65,.06)}
+      .mobile-nav-logout{color:#313841}
       .nav-right .auth-area,.nav-right>.btn-primary{display:none}
       .nav-right .profile-dropdown{position:static;display:none}
       .nav-toggle{position:relative;z-index:111}
@@ -307,34 +190,26 @@ function installFooterStyles() {
   const style = document.createElement('style');
   style.id = 'hookos-footer-fixes';
   style.textContent = `
-    /* Footer is informational. Never hide it behind scroll-reveal animation. */
-    .hookos-footer, .hookos-footer * { opacity: 1 !important; transform: none !important; visibility: visible !important; }
-    .hookos-footer { color: #111 !important; background: #fff !important; }
-    .hookos-footer .footer-tag,
-    .hookos-footer .footer-community-copy p,
-    .hookos-footer .footer-legal-links a,
-    .hookos-footer .footer-bottom { color: #666 !important; }
-    .hookos-footer .footer-kicker { color: #666 !important; }
+    .hookos-footer, .hookos-footer * { opacity:1 !important; transform:none !important; visibility:visible !important; }
+    .hookos-footer { color:#313841 !important; background:#EEEEEE !important; border-top:1px solid rgba(49,56,65,.18) !important; }
+    .hookos-footer .footer-tag,.hookos-footer .footer-community-copy p,.hookos-footer .footer-legal-links a,.hookos-footer .footer-bottom,.hookos-footer .footer-kicker { color:rgba(49,56,65,.72) !important; }
     .hookos-footer .footer-top { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px !important; align-items:start !important; }
     .hookos-footer .footer-column { min-width:0; }
-    .hookos-footer .footer-column h3 { margin:0 0 16px !important; color:#111 !important; }
-    .hookos-footer .footer-legal-links { gap:10px !important; }
-    .hookos-footer .footer-legal-links li { margin:0 !important; }
-    .hookos-footer .social-links { gap:10px !important; }
-    .hookos-footer .social-link { color:#111 !important; border-color:#EAEAEA !important; }
-    .hookos-footer .social-link:hover { background:#111 !important; border-color:#111 !important; color:#fff !important; }
-    .hookos-footer .footer-referral-strip { display:flex !important; align-items:center !important; justify-content:space-between !important; gap:20px !important; margin:28px 0 40px !important; padding:20px !important; border:1px solid #EAEAEA !important; border-radius:20px !important; background:#fff !important; box-shadow:0 10px 30px rgba(0,0,0,.04) !important; }
+    .hookos-footer .footer-column h3 { margin:0 0 16px !important; color:#313841 !important; }
+    .hookos-footer .footer-legal-links { gap:10px !important; }.hookos-footer .footer-legal-links li { margin:0 !important; }
+    .hookos-footer .social-links { gap:10px !important; }.hookos-footer .social-link { color:#313841 !important; border-color:#313841 !important; background:transparent !important; }
+    .hookos-footer .social-link:hover { background:#FBFC09 !important; border-color:#313841 !important; color:#313841 !important; }
+    .hookos-footer .footer-referral-strip { display:flex !important; align-items:center !important; justify-content:space-between !important; gap:20px !important; margin:28px 0 40px !important; padding:20px !important; border:1px solid rgba(49,56,65,.18) !important; border-radius:20px !important; background:#EEEEEE !important; box-shadow:none !important; }
     .hookos-footer .footer-referral-strip > div { display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:center; min-width:0; }
-    .hookos-footer .footer-referral-strip > div:before { content:'↗'; width:36px; height:36px; display:grid; place-items:center; grid-row:1 / span 2; border:1px solid #EAEAEA; border-radius:11px; font-size:18px; font-weight:800; color:#111; }
+    .hookos-footer .footer-referral-strip > div:before { content:'↗'; width:36px; height:36px; display:grid; place-items:center; grid-row:1 / span 2; border:1px solid #313841; border-radius:11px; font-size:18px; font-weight:800; color:#313841; }
     .hookos-footer .footer-referral-strip .footer-kicker { display:block; margin:0; font-size:10px; font-weight:900; letter-spacing:.14em; }
-    .hookos-footer .footer-referral-strip p { margin:3px 0 0; color:#111 !important; font-size:15px; font-weight:700; line-height:1.35; }
-    .hookos-footer .footer-referral-link { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px; border:1px solid #111; border-radius:999px; background:#111; color:#fff !important; font-size:13px; font-weight:800; }
+    .hookos-footer .footer-referral-strip p { margin:3px 0 0; color:#313841 !important; font-size:15px; font-weight:700; line-height:1.35; }
+    .hookos-footer .footer-referral-link { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 16px; border:1px solid #313841 !important; border-radius:999px; background:#FBFC09 !important; color:#313841 !important; font-size:13px; font-weight:800; }
     .hookos-footer .footer-bottom { margin-top:0 !important; }
     @media(max-width:700px){
       .hookos-footer .footer-top { grid-template-columns:1fr !important; gap:28px !important; }
       .hookos-footer .footer-referral-strip { align-items:flex-start !important; flex-direction:column !important; margin:24px 0 32px !important; }
-      .hookos-footer .footer-referral-strip > div { width:100%; }
-      .hookos-footer .footer-referral-link { width:100%; }
+      .hookos-footer .footer-referral-strip > div { width:100%; }.hookos-footer .footer-referral-link { width:100%; }
     }
   `;
   document.head.appendChild(style);
@@ -344,48 +219,33 @@ function renderFooter() {
   const root = document.getElementById('footer-root');
   if (!root) return;
   root.innerHTML = `
-    <footer class="hookos-footer">
-      <div class="container">
-        <div class="footer-intro">
-          <div><span class="logo-wordmark footer-wordmark">HOOKOS</span><p class="footer-tag">From Idea To Reel.</p></div>
-          <div class="footer-community-copy"><span class="footer-kicker">CREATE & GROW</span><p>Create better reels. Grow together.</p></div>
-        </div>
-        <div class="footer-referral-strip"><div><span class="footer-kicker">INVITE FRIENDS</span><p>Get +2 generations for every successful referral.</p></div><a href="dashboard.html#referral" class="footer-referral-link">Invite Friends →</a></div>
-        <div class="footer-top">
-          <div class="footer-column"><h3>Product</h3><ul class="footer-legal-links"><li><a href="index.html#generator">Generator</a></li><li><a href="index.html#how-it-works">How It Works</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="tutorial.html">Tutorial</a></li><li><a href="support.html">Support</a></li><li><a href="dashboard.html#referral">Invite Friends</a></li></ul></div>
-          <div class="footer-column"><h3>Community</h3><div class="social-links">
-            <a class="social-link" href="https://www.instagram.com/hookos.v3?igsh=NDJkYzNvdnVrazlj" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1"/></svg></a>
-            <a class="social-link" href="https://youtube.com/@hookos-v3?si=Vhg6vVhdCLvX921b" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.3 15 12l-4.5 2.7z" fill="currentColor" stroke="none"/></svg></a>
-            <a class="social-link" href="https://discord.gg/hookos" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Discord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 8.5C9 7 15 7 17.5 8.5c1 3 1.3 6 1 9-1.5 1.2-3 1.8-4.4 2l-.7-1.4c.8-.2 1.5-.5 2.2-1-1.9.9-4 1.3-6.1.9-.9-.2-1.8-.5-2.6-.9.7.5 1.4.8 2.2 1L8.4 19.5c-1.4-.2-2.9-.8-4.4-2-.3-3.5.2-6.5 1-9z"/><circle cx="9.2" cy="14" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.8" cy="14" r="1.15" fill="currentColor" stroke="none"/></svg></a>
-          </div></div>
-          <div class="footer-column"><h3>Legal</h3><ul class="footer-legal-links"><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="cookies.html">Cookie Policy</a></li><li><a href="data-deletion.html">Data Deletion</a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><span>© 2026 HookOS. All rights reserved.</span><span>v4.1 · Built by NOTX4.EXE</span></div>
+    <footer class="hookos-footer"><div class="container">
+      <div class="footer-intro"><div><span class="logo-wordmark footer-wordmark">HOOKOS</span><p class="footer-tag">From Idea To Reel.</p></div><div class="footer-community-copy"><span class="footer-kicker">CREATE & GROW</span><p>Create better reels. Grow together.</p></div></div>
+      <div class="footer-referral-strip"><div><span class="footer-kicker">INVITE FRIENDS</span><p>Get +2 generations for every successful referral.</p></div><a href="dashboard.html#referral" class="footer-referral-link">Invite Friends →</a></div>
+      <div class="footer-top">
+        <div class="footer-column"><h3>Product</h3><ul class="footer-legal-links"><li><a href="index.html#generator">Generator</a></li><li><a href="index.html#how-it-works">How It Works</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="tutorial.html">Tutorial</a></li><li><a href="support.html">Support</a></li><li><a href="dashboard.html#referral">Invite Friends</a></li></ul></div>
+        <div class="footer-column"><h3>Community</h3><div class="social-links">
+          <a class="social-link" href="https://www.instagram.com/hookos.v3?igsh=NDJkYzNvdnVrazlj" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1"/></svg></a>
+          <a class="social-link" href="https://youtube.com/@hookos-v3?si=Vhg6vVhdCLvX921b" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.3 15 12l-4.5 2.7z" fill="currentColor" stroke="none"/></svg></a>
+          <a class="social-link" href="https://discord.gg/hookos" target="_blank" rel="noopener noreferrer" aria-label="HOOKOS on Discord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 8.5C9 7 15 7 17.5 8.5c1 3 1.3 6 1 9-1.5 1.2-3 1.8-4.4 2l-.7-1.4c.8-.2 1.5-.5 2.2-1-1.9.9-4 1.3-6.1.9-.9-.2-1.8-.5-2.6-.9.7.5 1.4.8 2.2 1L8.4 19.5c-1.4-.2-2.9-.8-4.4-2-.3-3.5.2-6.5 1-9z"/><circle cx="9.2" cy="14" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.8" cy="14" r="1.15" fill="currentColor" stroke="none"/></svg></a>
+        </div></div>
+        <div class="footer-column"><h3>Legal</h3><ul class="footer-legal-links"><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="cookies.html">Cookie Policy</a></li><li><a href="data-deletion.html">Data Deletion</a></li></ul></div>
       </div>
-    </footer>`;
+      <div class="footer-bottom"><span>© 2026 HookOS. All rights reserved.</span><span>v4.1 · Built by NOTX4.EXE</span></div>
+    </div></footer>`;
   installFooterStyles();
 }
 
 function initNavInteractions() {
-  const toggle = document.getElementById('nav-toggle');
-  const nav = document.getElementById('nav-right');
-  const backdrop = document.getElementById('nav-backdrop');
-  const closeButton = document.getElementById('mobile-nav-close');
+  const toggle = document.getElementById('nav-toggle'); const nav = document.getElementById('nav-right'); const backdrop = document.getElementById('nav-backdrop'); const closeButton = document.getElementById('mobile-nav-close');
   if (toggle && nav) {
     const closeNav = () => { document.body.classList.remove('nav-open'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Open menu'); };
     toggle.addEventListener('click', () => { const isOpen = document.body.classList.toggle('nav-open'); toggle.setAttribute('aria-expanded',String(isOpen)); toggle.setAttribute('aria-label',isOpen?'Close menu':'Open menu'); });
-    if (closeButton) closeButton.addEventListener('click', closeNav);
-    if (backdrop) backdrop.addEventListener('click', closeNav);
-    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
-    nav.querySelectorAll('button[data-action="logout"]').forEach(button => button.addEventListener('click', closeNav));
+    if (closeButton) closeButton.addEventListener('click', closeNav); if (backdrop) backdrop.addEventListener('click', closeNav);
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav)); nav.querySelectorAll('button[data-action="logout"]').forEach(button => button.addEventListener('click', closeNav));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
   }
-  document.addEventListener('click', e => {
-    const trigger = e.target.closest('#profile-trigger');
-    const menu = document.getElementById('profile-menu');
-    if (trigger && menu) { const isOpen = menu.classList.toggle('is-open'); trigger.setAttribute('aria-expanded',String(isOpen)); }
-    else if (menu && !e.target.closest('#profile-menu')) menu.classList.remove('is-open');
-  });
+  document.addEventListener('click', e => { const trigger = e.target.closest('#profile-trigger'); const menu = document.getElementById('profile-menu'); if (trigger && menu) { const isOpen = menu.classList.toggle('is-open'); trigger.setAttribute('aria-expanded',String(isOpen)); } else if (menu && !e.target.closest('#profile-menu')) menu.classList.remove('is-open'); });
 }
 
 function ensureDeleteModal() {
