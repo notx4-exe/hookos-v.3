@@ -12,6 +12,222 @@ function hookosCurrentPageKey() {
   return null;
 }
 
+function installThreeColorSystem() {
+  if (document.getElementById('hookos-three-color-system')) return;
+  const style = document.createElement('style');
+  style.id = 'hookos-three-color-system';
+  style.textContent = `
+    /* HookOS strict three-color system
+       Pebble      #EEEEEE  — page/card surfaces
+       High Tide   #313841  — ink, icons, borders, neutral controls
+       Palesun     #FBFC09  — the only accent
+    */
+    :root {
+      --bg:#EEEEEE !important;
+      --surface:#EEEEEE !important;
+      --text-primary:#313841 !important;
+      --text-secondary:rgba(49,56,65,.72) !important;
+      --accent:#FBFC09 !important;
+      --accent-contrast:#313841 !important;
+      --border:rgba(49,56,65,.18) !important;
+      --success:#FBFC09 !important;
+      --danger:#313841 !important;
+      --hookos-green:#FBFC09 !important;
+      --hookos-green-dark:#313841 !important;
+      --hookos-green-soft:#EEEEEE !important;
+      --hookos-green-wash:#EEEEEE !important;
+      --hookos-bg:#EEEEEE !important;
+      --hookos-surface:#EEEEEE !important;
+      --hookos-text:#313841 !important;
+      --hookos-muted:rgba(49,56,65,.72) !important;
+      --hookos-border:rgba(49,56,65,.18) !important;
+      --hookos-danger:#313841 !important;
+      --hookos-v4-bg:#EEEEEE !important;
+      --hookos-v4-text:#313841 !important;
+      --hookos-v4-yellow:#FBFC09 !important;
+      --hookos-v4-border:rgba(49,56,65,.18) !important;
+      --hookos-v4-surface:#EEEEEE !important;
+    }
+
+    html, body, main, section, .section-alt,
+    .hookos-v4-page, .dashboard-shell, .legal-page {
+      background:#EEEEEE !important;
+      color:#313841 !important;
+    }
+
+    h1,h2,h3,h4,h5,h6,p,span,li,label,small,strong,em,
+    a,button,input,textarea,select,option,svg { color:#313841; }
+
+    /* Cards never use a white-vs-gray fill trick. Border creates separation. */
+    .card,.mockup,.mockup-window,.mockup-body,.generator-card,
+    .dashboard-card,.history-card,.history-item,.result-card,.output-card,
+    .metrics-panel,.early-access-shell,.support-card,.tutorial-step,
+    .tutorial-preview,.v4-generator-card,.v4-results .result-card,
+    .v4-results .metrics-panel,.v4-loading-panel,.referral-card,
+    .example-input,.profile-dropdown,.hookos-modal,.cookie-banner,
+    .framework-chip,.v4-framework-grid .framework-chip,
+    #idea-input,.v4-generator-card #idea-input {
+      background:#EEEEEE !important;
+      color:#313841 !important;
+      border-color:rgba(49,56,65,.18) !important;
+    }
+
+    .navbar {
+      background:rgba(238,238,238,.92) !important;
+      border-color:rgba(49,56,65,.18) !important;
+    }
+    .nav-links a,.nav-right .nav-links-core a,.mobile-nav-link,
+    .nav-links a:hover,.nav-links a:focus-visible { color:#313841 !important; }
+    .nav-toggle {
+      background:#313841 !important;
+      border-color:#313841 !important;
+    }
+    .nav-toggle-bars span { background:#EEEEEE !important; }
+    .mobile-nav-close {
+      background:#313841 !important;
+      border-color:#313841 !important;
+      color:#EEEEEE !important;
+    }
+    .nav-backdrop { background:rgba(49,56,65,.28) !important; }
+
+    /* Primary action: yellow with dark ink, never white. */
+    .btn-primary,.dashboard-create .btn,.v4-generate-button,
+    .v4-generator-card .btn-primary,.referral-copy-btn,
+    .footer-referral-link,.cookie-banner-actions .btn-primary {
+      background:#FBFC09 !important;
+      color:#313841 !important;
+      border-color:#FBFC09 !important;
+      box-shadow:none !important;
+    }
+    .btn-primary:hover:not(:disabled),.v4-generate-button:hover:not(:disabled),
+    .referral-copy-btn:hover,.footer-referral-link:hover,
+    .cookie-banner-actions .btn-primary:hover {
+      background:#FBFC09 !important;
+      color:#313841 !important;
+      border-color:#FBFC09 !important;
+    }
+
+    /* Neutral controls: High Tide ink + outline, transparent/Pebble fill. */
+    .btn-secondary,.btn-google,.mini-btn,.danger-button,
+    .cookie-banner-actions .btn-secondary,
+    .hookos-modal-actions button {
+      background:transparent !important;
+      color:#313841 !important;
+      border-color:#313841 !important;
+      box-shadow:none !important;
+    }
+    .btn-secondary:hover,.btn-google:hover,.mini-btn:hover,
+    .cookie-banner-actions .btn-secondary:hover {
+      background:rgba(49,56,65,.06) !important;
+      color:#313841 !important;
+      border-color:#313841 !important;
+    }
+
+    /* Delete uses the same ink. Confirmation, not red, carries the danger signal. */
+    .danger-button,.hookos-modal-delete,.mobile-nav-logout,
+    [data-action="delete-account"],.danger {
+      color:#313841 !important;
+      background:transparent !important;
+      border-color:#313841 !important;
+    }
+    .danger-button:hover,.hookos-modal-delete:hover,
+    [data-action="delete-account"]:hover,.danger:hover {
+      color:#313841 !important;
+      background:rgba(49,56,65,.06) !important;
+      border-color:#313841 !important;
+    }
+
+    /* Selected/focus states use the single accent. */
+    .framework-chip.selected,
+    .v4-framework-grid .framework-chip.selected,
+    .tutorial-preview .preview-chip.is-selected,
+    .nav-right .nav-links a.is-active {
+      background:#FBFC09 !important;
+      border-color:#313841 !important;
+      color:#313841 !important;
+      box-shadow:none !important;
+    }
+    .framework-chip.selected .check,
+    .v4-framework-grid .framework-chip.selected .check {
+      background:#FBFC09 !important;
+      border-color:#313841 !important;
+      color:#313841 !important;
+    }
+    :focus-visible {
+      outline:3px solid #FBFC09 !important;
+      outline-offset:3px !important;
+    }
+
+    /* Progress communicates urgency through length, not hue. */
+    .usage-bar,.usage-bar span,.metric-bar,.metric-bar span,
+    .progress-bar,.progress-bar span,#loading-bar {
+      border-color:#313841 !important;
+    }
+    .usage-bar,.metric-bar,.progress-bar {
+      background:rgba(49,56,65,.18) !important;
+    }
+    .usage-bar span,.metric-bar span,.progress-bar span,#loading-bar {
+      background:#FBFC09 !important;
+    }
+
+    /* Remove legacy red/green status colors. */
+    .generation-quota.is-limit,.generation-quota.is-ready,#char-count,
+    .hookos-modal-warning,.output-status,.recommended-note,
+    .referral-dot,.referral-invite,.support-email {
+      color:#313841 !important;
+      border-color:rgba(49,56,65,.18) !important;
+    }
+    .recommended-note,.referral-invite { background:#EEEEEE !important; }
+    .referral-dot { background:#FBFC09 !important; box-shadow:none !important; }
+
+    /* Referral/footer: same system, no legacy dark/green palette. */
+    .referral-card,.footer-referral-strip { background:#EEEEEE !important; }
+    .referral-card::after { display:none !important; }
+    .referral-copy,.referral-meta,.footer-tag,.footer-community-copy p,
+    .footer-legal-links a,.footer-bottom,.footer-kicker { color:rgba(49,56,65,.72) !important; }
+    .referral-eyebrow,.referral-card h2,.referral-meta strong { color:#313841 !important; }
+    .referral-copy-btn,.footer-referral-link { color:#313841 !important; }
+    .hookos-footer {
+      background:#EEEEEE !important;
+      color:#313841 !important;
+      border-top:1px solid rgba(49,56,65,.18) !important;
+    }
+    .hookos-footer .footer-wordmark,.hookos-footer .footer-column h3,
+    .hookos-footer .footer-referral-strip p { color:#313841 !important; }
+    .hookos-footer .footer-top { border-bottom-color:rgba(49,56,65,.18) !important; }
+    .hookos-footer .social-link {
+      color:#313841 !important;
+      border-color:#313841 !important;
+      background:transparent !important;
+    }
+    .hookos-footer .social-link:hover {
+      background:#FBFC09 !important;
+      border-color:#313841 !important;
+      color:#313841 !important;
+    }
+
+    /* Cookie notice stays a floating Pebble card. */
+    .cookie-banner {
+      background:#EEEEEE !important;
+      color:#313841 !important;
+      border-color:#313841 !important;
+    }
+    .cookie-banner p,.cookie-banner p a { color:#313841 !important; }
+
+    /* V4 hard-coded neutrals are normalized too. */
+    .v4-kicker,.v4-hero p,.v4-field-label { color:rgba(49,56,65,.72) !important; }
+    .v4-generator-card #idea-input:focus { border-color:#313841 !important; box-shadow:0 0 0 3px rgba(251,252,9,.35) !important; }
+    .v4-results .result-card-featured { background:#FBFC09 !important; border-color:#313841 !important; }
+    .v4-results .result-card-cta .result-body { background:#FBFC09 !important; color:#313841 !important; }
+
+    @media(max-width:860px){
+      .nav-right { background:#EEEEEE !important; border-left-color:#313841 !important; }
+      .nav-right .nav-links-core a.is-active { background:#FBFC09 !important; color:#313841 !important; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function renderNavbar() {
   const root = document.getElementById('navbar-root');
   if (!root) return;
@@ -181,5 +397,5 @@ function ensureDeleteModal() {
   cancel.addEventListener('click',close); backdrop.addEventListener('click',close); document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&modal.classList.contains('is-open')) close(); });
 }
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { renderNavbar(); renderFooter(); ensureDeleteModal(); });
-else { renderNavbar(); renderFooter(); ensureDeleteModal(); }
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { installThreeColorSystem(); renderNavbar(); renderFooter(); ensureDeleteModal(); });
+else { installThreeColorSystem(); renderNavbar(); renderFooter(); ensureDeleteModal(); }
