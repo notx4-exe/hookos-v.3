@@ -43,6 +43,78 @@ const HookosAuth = (() => {
     });
   }
 
+  function installMobileNavFixes() {
+    if (document.getElementById('hookos-mobile-nav-fixes')) return;
+    const style = document.createElement('style');
+    style.id = 'hookos-mobile-nav-fixes';
+    style.textContent = `
+      @media (max-width: 860px) {
+        /* Mobile menu: keep it a true full-height right drawer. */
+        .navbar .nav-right {
+          position: fixed !important;
+          top: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          left: auto !important;
+          width: min(360px, 88vw) !important;
+          height: 100dvh !important;
+          max-height: 100dvh !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 0 !important;
+          background: #fff !important;
+          border: 0 !important;
+          border-left: 1px solid #E5E7EB !important;
+          border-radius: 24px 0 0 24px !important;
+          box-shadow: -18px 0 56px rgba(0,0,0,.14) !important;
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          overscroll-behavior: contain !important;
+          z-index: 1001 !important;
+          transform: translateX(104%) !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+        body.nav-open .navbar .nav-right {
+          transform: translateX(0) !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+        }
+
+        /* The mobile menu only needs Product + Generator + account access. */
+        .navbar .nav-links-core li:nth-child(3),
+        .navbar .nav-links-core li:nth-child(4) {
+          display: none !important;
+        }
+
+        .navbar .nav-links-core {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 4px !important;
+          padding: 14px 12px 8px !important;
+          margin: 0 !important;
+        }
+        .navbar .nav-links-core a {
+          min-height: 48px !important;
+          margin: 0 !important;
+          padding: 0 14px !important;
+        }
+        .navbar .mobile-account-links {
+          padding: 4px 12px 16px !important;
+          margin: 0 !important;
+        }
+        .navbar .mobile-nav-header {
+          min-height: 72px !important;
+          flex-shrink: 0 !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function consumeOAuthToken() {
     const hash = window.location.hash || '';
     if (!hash.startsWith('#auth_token=')) return false;
@@ -84,13 +156,14 @@ const HookosAuth = (() => {
   }
 
   async function init() {
+    installMobileNavFixes();
     const receivedOAuthToken = consumeOAuthToken();
     const error = checkOAuthRedirectParams();
     const authenticated = await refresh();
 
     if (receivedOAuthToken || error) cleanOAuthUrl();
 
-    // OAuth already returns to dashboard.html. This fallback also handles
+    // OAuth normally returns to dashboard.html. This fallback also handles
     // providers/configurations that return to the home page.
     if (receivedOAuthToken && authenticated && !window.location.pathname.endsWith('/dashboard.html')) {
       window.location.replace('dashboard.html');
@@ -196,8 +269,17 @@ const HookosAuth = (() => {
   }
 
   document.addEventListener('click', (e) => {
+    const loginTarget = e.target.closest('[data-action="google-login"]');
     if (e.target.closest('[data-action="logout"]')) logout();
-    if (e.target.closest('[data-action="google-login"]')) window.location.href = HookosAPI.googleLoginUrl();
+    if (loginTarget) {
+      // The mobile Sign In control is an <a>. Prevent its fallback href from
+      // racing the OAuth redirect and leaving the user on index.html.
+      e.preventDefault();
+      e.stopPropagation();
+      document.body.classList.remove('nav-open');
+      window.location.assign(HookosAPI.googleLoginUrl());
+      return;
+    }
     if (e.target.closest('[data-action="delete-account"]')) deleteAccount();
   });
 
