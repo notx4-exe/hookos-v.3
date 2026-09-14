@@ -57,23 +57,16 @@
   }
 
   function setSurpriseMode() {
-    // "Pick one for me" must never send the backend the UI-only value
-    // "surprise-me". Pick a real supported framework on the client first.
     const randomIndex = Math.floor(Math.random() * FRAMEWORKS.length);
     const chosenFramework = FRAMEWORKS[randomIndex];
     selectedFramework = chosenFramework.id;
-
     frameworkList?.querySelectorAll('.hook-choice-card').forEach((card) => {
       const active = card.dataset.framework === chosenFramework.id;
       card.classList.toggle('is-selected', active);
       card.setAttribute('aria-checked', String(active));
     });
     hookChoiceSurprise?.classList.add('is-selected');
-
-    // Show the selected framework immediately so the user knows what was picked.
-    if (hookChoiceSurprise) {
-      hookChoiceSurprise.innerHTML = `🎲 ${chosenFramework.name} picked for you`;
-    }
+    if (hookChoiceSurprise) hookChoiceSurprise.innerHTML = `🎲 ${chosenFramework.name} picked for you`;
   }
 
   function toggleHookOptions() {
@@ -158,7 +151,12 @@
     String(bp.scenePlan || '').split('\n').map(line => line.trim()).filter(Boolean).forEach((line, idx) => { const row = document.createElement('div'); row.className = 'scene'; row.innerHTML = `<span class="scene-num">${idx+1}.</span><span>${escapeHtml(line.replace(/^\d+[.)]\s*/,''))}</span>`; sceneEl.appendChild(row); });
     renderMetrics(bp.metrics || {}); document.querySelectorAll('.result-card').forEach((card, i) => { card.classList.remove('fade-slide-in'); void card.offsetWidth; card.style.animationDelay = `${i*.06}s`; card.classList.add('fade-slide-in'); });
   }
-  function renderMetrics(metrics) { setText('metric-virality', metrics.viralityScore != null ? `${metrics.viralityScore}` : '—'); setText('metric-retention', metrics.retentionScore != null ? `${metrics.retentionScore}` : '—'); setText('metric-watchtime', metrics.predictedWatchTime != null ? `${metrics.predictedWatchTime}` : '—'); setText('metric-emotion', metrics.emotionTrigger || '—'); setText('metric-framework', metrics.framework || '—'); setText('metric-confidence', metrics.confidence || '—'); setBar('metric-virality-bar', metrics.viralityScore); setBar('metric-retention-bar', metrics.retentionScore); setBar('metric-watchtime-bar', metrics.predictedWatchTime); }
+  function renderMetrics(metrics) {
+    setText('metric-virality', metrics.viralityScore != null ? `${metrics.viralityScore}` : '—');
+    setText('metric-emotion', metrics.emotionTrigger || '—');
+    setText('metric-framework', metrics.framework || '—');
+    setBar('metric-virality-bar', metrics.viralityScore);
+  }
   function setBar(id, value) { const el = document.getElementById(id); if (el) el.style.width = value != null ? `${Math.max(0, Math.min(100, value))}%` : '0%'; }
   function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value || ''; }
   function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
