@@ -55,7 +55,25 @@
       <div class="loading-panel v4-loading-panel" id="loading-panel" aria-live="polite"><div class="loading-orb" aria-hidden="true"></div><div class="loading-status" id="loading-status">Preparing your blueprint...</div><ul class="loading-steps" id="loading-steps" aria-hidden="true"></ul><div class="loading-track" aria-hidden="true"><div class="loading-bar" id="loading-bar"></div></div></div>
       <section id="results" class="v4-results" hidden aria-live="polite">
         <div class="v4-results-head"><div><div class="v4-kicker">YOUR REEL BLUEPRINT</div><h2>Your reel blueprint</h2></div><span class="output-status"><span></span> READY</span></div>
-        <div class="metrics-panel v4-metrics"><div class="metrics-heading"><h3>Creative signals</h3><span>AI estimates</span></div><div class="metrics-grid"><div class="metric"><span class="metric-label">Virality Score</span><span class="metric-value" id="metric-virality">—</span><div class="metric-bar"><span id="metric-virality-bar"></span></div></div><div class="metric"><span class="metric-label">Retention Score</span><span class="metric-value" id="metric-retention">—</span><div class="metric-bar"><span id="metric-retention-bar"></span></div></div><div class="metric"><span class="metric-label">Predicted Watch Time</span><span class="metric-value" id="metric-watchtime">—</span><div class="metric-bar"><span id="metric-watchtime-bar"></span></div></div><div class="metric"><span class="metric-label">Emotion Trigger</span><span class="metric-value is-text" id="metric-emotion">—</span></div><div class="metric"><span class="metric-label">Framework Used</span><span class="metric-value is-text" id="metric-framework">—</span></div><div class="metric"><span class="metric-label">Confidence</span><span class="metric-value is-text" id="metric-confidence">—</span></div></div></div>
+        <div class="metrics-panel v4-metrics">
+          <div class="metrics-heading"><h3>Why this may work</h3></div>
+          <div class="v4-signal-grid">
+            <div class="v4-signal-primary">
+              <div class="metric-label">Virality potential</div>
+              <div class="v4-signal-score" id="metric-virality">—</div>
+              <div class="metric-bar" aria-hidden="true"><span id="metric-virality-bar"></span></div>
+              <p>AI estimate of how strongly the blueprint is built to earn attention.</p>
+            </div>
+            <div class="v4-signal-secondary">
+              <div class="metric-label">Main emotion</div>
+              <div class="metric-value is-text" id="metric-emotion">—</div>
+            </div>
+            <div class="v4-signal-secondary">
+              <div class="metric-label">Framework</div>
+              <div class="metric-value is-text" id="metric-framework">—</div>
+            </div>
+          </div>
+        </div>
         <div class="result-card"><div class="result-card-head"><h3>Title</h3><button class="copy-btn" data-target="result-title" type="button">Copy</button></div><div class="result-body" id="result-title"></div></div><div class="result-card"><div class="result-card-head"><h3>Topic Refinement</h3><button class="copy-btn" data-target="result-topic" type="button">Copy</button></div><div class="result-body" id="result-topic"></div></div><div class="result-card result-card-featured"><div class="result-card-head"><h3>Hook</h3><button class="copy-btn" data-target="result-hook" type="button">Copy</button></div><div class="result-body" id="result-hook"></div></div><div class="result-card"><div class="result-card-head"><h3>Script</h3><button class="copy-btn" data-target="result-script" type="button">Copy</button></div><div class="result-body" id="result-script"></div></div><div class="result-card"><div class="result-card-head"><h3>Scene Plan</h3><button class="copy-btn" data-target="result-scene" type="button">Copy</button></div><div class="result-body scene-plan" id="result-scene"></div></div><div class="result-card result-card-cta"><div class="result-card-head"><h3>CTA</h3><button class="copy-btn" data-target="result-cta" type="button">Copy</button></div><div class="result-body" id="result-cta"></div></div>
       </section>
     </div>
