@@ -27,27 +27,16 @@
           <label class="v4-field-label" id="idea-label" for="idea-input">Your idea</label>
           <div class="hookos-idea-wrap"><textarea id="idea-input" placeholder="What’s your reel about?" aria-labelledby="idea-label" aria-describedby="char-count" required></textarea></div>
           <div class="input-counter-row"><span id="char-count">0/500</span></div>
-
           <div class="v4-framework-row"><div class="v4-field-label" id="framework-label">Hook</div></div>
           <div class="v4-hook-choice" id="hook-choice">
             <button type="button" class="hook-choice-surprise" id="hook-choice-surprise">🎲 Pick one for me</button>
             <div class="hook-choice-list" id="hook-choice-list" role="radiogroup" aria-labelledby="framework-label">
-              <button type="button" class="hook-choice-card is-selected" data-framework="curiosity-gap" role="radio" aria-checked="true">
-                <span class="hook-choice-card-top"><span class="hook-choice-name">Curiosity Gap</span><span class="hook-choice-recommended">Recommended</span></span>
-                <span class="hook-choice-desc">Opens a gap the viewer wants to close.</span>
-              </button>
-              <button type="button" class="hook-choice-card hook-choice-extra" data-framework="story" role="radio" aria-checked="false" hidden>
-                <span class="hook-choice-card-top"><span class="hook-choice-name">Story</span></span>
-                <span class="hook-choice-desc">A personal narrative with a turning point.</span>
-              </button>
-              <button type="button" class="hook-choice-card hook-choice-extra" data-framework="open-loop" role="radio" aria-checked="false" hidden>
-                <span class="hook-choice-card-top"><span class="hook-choice-name">Open Loop</span></span>
-                <span class="hook-choice-desc">Delays the payoff to hold attention.</span>
-              </button>
+              <button type="button" class="hook-choice-card is-selected" data-framework="curiosity-gap" role="radio" aria-checked="true"><span class="hook-choice-card-top"><span class="hook-choice-name">Curiosity Gap</span><span class="hook-choice-recommended">Recommended</span></span><span class="hook-choice-desc">Opens a gap the viewer wants to close.</span></button>
+              <button type="button" class="hook-choice-card hook-choice-extra" data-framework="story" role="radio" aria-checked="false" hidden><span class="hook-choice-card-top"><span class="hook-choice-name">Story</span></span><span class="hook-choice-desc">A personal narrative with a turning point.</span></button>
+              <button type="button" class="hook-choice-card hook-choice-extra" data-framework="open-loop" role="radio" aria-checked="false" hidden><span class="hook-choice-card-top"><span class="hook-choice-name">Open Loop</span></span><span class="hook-choice-desc">Delays the payoff to hold attention.</span></button>
             </div>
             <button type="button" class="hook-choice-expand" id="hook-choice-expand" aria-expanded="false" aria-controls="hook-choice-list">Explore more</button>
           </div>
-
           <button type="submit" class="btn btn-primary btn-lg btn-block v4-generate-button" id="generate-btn"><span id="generate-btn-text">Generate Reel</span><span aria-hidden="true">→</span></button>
           <div class="form-hint" id="form-hint">&nbsp;</div><div class="api-error" id="api-error" role="alert"></div>
         </form>
@@ -58,20 +47,9 @@
         <div class="metrics-panel v4-metrics">
           <div class="metrics-heading"><h3>Why this may work</h3></div>
           <div class="v4-signal-grid">
-            <div class="v4-signal-primary">
-              <div class="metric-label">Virality potential</div>
-              <div class="v4-signal-score" id="metric-virality">—</div>
-              <div class="metric-bar" aria-hidden="true"><span id="metric-virality-bar"></span></div>
-              <p>AI estimate of how strongly the blueprint is built to earn attention.</p>
-            </div>
-            <div class="v4-signal-secondary">
-              <div class="metric-label">Main emotion</div>
-              <div class="metric-value is-text" id="metric-emotion">—</div>
-            </div>
-            <div class="v4-signal-secondary">
-              <div class="metric-label">Framework</div>
-              <div class="metric-value is-text" id="metric-framework">—</div>
-            </div>
+            <div class="v4-signal-primary"><div class="metric-label">Virality potential</div><div class="v4-signal-score" id="metric-virality">—</div><div class="metric-bar" aria-hidden="true"><span id="metric-virality-bar"></span></div><p>How likely this is to spread.</p></div>
+            <div class="v4-signal-secondary"><div class="metric-label">Main emotion</div><div class="metric-value is-text" id="metric-emotion">—</div></div>
+            <div class="v4-signal-secondary"><div class="metric-label">Framework</div><div class="metric-value is-text" id="metric-framework">—</div></div>
           </div>
         </div>
         <div class="result-card"><div class="result-card-head"><h3>Title</h3><button class="copy-btn" data-target="result-title" type="button">Copy</button></div><div class="result-body" id="result-title"></div></div><div class="result-card"><div class="result-card-head"><h3>Topic Refinement</h3><button class="copy-btn" data-target="result-topic" type="button">Copy</button></div><div class="result-body" id="result-topic"></div></div><div class="result-card result-card-featured"><div class="result-card-head"><h3>Hook</h3><button class="copy-btn" data-target="result-hook" type="button">Copy</button></div><div class="result-body" id="result-hook"></div></div><div class="result-card"><div class="result-card-head"><h3>Script</h3><button class="copy-btn" data-target="result-script" type="button">Copy</button></div><div class="result-body" id="result-script"></div></div><div class="result-card"><div class="result-card-head"><h3>Scene Plan</h3><button class="copy-btn" data-target="result-scene" type="button">Copy</button></div><div class="result-body scene-plan" id="result-scene"></div></div><div class="result-card result-card-cta"><div class="result-card-head"><h3>CTA</h3><button class="copy-btn" data-target="result-cta" type="button">Copy</button></div><div class="result-body" id="result-cta"></div></div>
