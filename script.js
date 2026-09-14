@@ -23,7 +23,6 @@
     { id:'story', name:'Story', desc:'A personal narrative with a turning point.' },
     { id:'open-loop', name:'Open Loop', desc:'Delays the payoff to hold attention.' },
   ];
-  const SURPRISE_ID = 'surprise-me';
   const BAD_WORDS = ['fuck','fucking','shit','bitch','bastard','asshole','dick','piss','cunt','slut','whore'];
   const MAX_LENGTH = 500;
   const MIN_LENGTH = 10;
@@ -47,6 +46,7 @@
   let loadingTimer = null;
 
   function setSelectedFramework(id) {
+    if (!FRAMEWORKS.some((framework) => framework.id === id)) return;
     selectedFramework = id;
     frameworkList?.querySelectorAll('.hook-choice-card').forEach((card) => {
       const active = card.dataset.framework === id;
@@ -57,12 +57,23 @@
   }
 
   function setSurpriseMode() {
-    selectedFramework = SURPRISE_ID;
+    // "Pick one for me" must never send the backend the UI-only value
+    // "surprise-me". Pick a real supported framework on the client first.
+    const randomIndex = Math.floor(Math.random() * FRAMEWORKS.length);
+    const chosenFramework = FRAMEWORKS[randomIndex];
+    selectedFramework = chosenFramework.id;
+
     frameworkList?.querySelectorAll('.hook-choice-card').forEach((card) => {
-      card.classList.remove('is-selected');
-      card.setAttribute('aria-checked', 'false');
+      const active = card.dataset.framework === chosenFramework.id;
+      card.classList.toggle('is-selected', active);
+      card.setAttribute('aria-checked', String(active));
     });
     hookChoiceSurprise?.classList.add('is-selected');
+
+    // Show the selected framework immediately so the user knows what was picked.
+    if (hookChoiceSurprise) {
+      hookChoiceSurprise.innerHTML = `🎲 ${chosenFramework.name} picked for you`;
+    }
   }
 
   function toggleHookOptions() {
@@ -80,6 +91,7 @@
     const card = e.target.closest('.hook-choice-card');
     if (!card || !frameworkList.contains(card)) return;
     setSelectedFramework(card.dataset.framework);
+    if (hookChoiceSurprise) hookChoiceSurprise.innerHTML = '🎲 Pick one for me';
   });
 
   function updateCharCount() {
